@@ -29,10 +29,10 @@ And log unto github to submit a Pull Request to merge your branch with master.
 3. Add in more features
 4. Feature selection
 	- Correlation matrix: @ddaniel
-	- RFE for logistics regression
-	- AIC for logisitcs regression
-	- Variance Threshold for logistics regression
-5. How do we prevent overfitting? What are the precautionary measures to ensure we are not overfitting?
+	- RFE for logistics regression: @ddaniel
+	- AIC for logisitcs regression: @shumingpeh
+	- Variance Threshold for logistics regression: @shumingpeh
+5. How do we prevent overfitting? What are the precautionary measures to ensure we are not overfitting? @shumingpeh @ddaniel
 6. Testing out prediction with different models
 	- Random forest
 	- SVM
