@@ -543,6 +543,8 @@ combine_winning_losing_stats_for_year = (
     .pipe(lambda x:x.assign(total_opponent_score = x.winning_opponent_score + x.losing_opponent_score))
     .pipe(lambda x:x.assign(total_fgm = x.WFGM + x.LFGM))
     .pipe(lambda x:x.assign(total_fga = x.WFGA + x.LFGA))
+    .pipe(lambda x:x.assign(total_fg3m = x.WFGM3 + x.LFGM3))
+    .pipe(lambda x:x.assign(total_fg3a = x.WFGA3 + x.LFGA3))
     .pipe(lambda x:x.assign(total_ftm = x.WFTM + x.LFTM))
     .pipe(lambda x:x.assign(total_fta = x.WFTA + x.LFTA))
     .pipe(lambda x:x.assign(win_rate = x.winning_num_counts/(x.winning_num_counts + x.losing_num_counts)))
@@ -587,13 +589,13 @@ combine_winning_losing_stats_for_year.head()
       <th>WFTA</th>
       <th>losing_opponent_score</th>
       <th>...</th>
-      <th>LFTM</th>
-      <th>LFTA</th>
       <th>losing_num_counts</th>
       <th>total_score</th>
       <th>total_opponent_score</th>
       <th>total_fgm</th>
       <th>total_fga</th>
+      <th>total_fg3m</th>
+      <th>total_fg3a</th>
       <th>total_ftm</th>
       <th>total_fta</th>
       <th>win_rate</th>
@@ -613,13 +615,13 @@ combine_winning_losing_stats_for_year.head()
       <td>249</td>
       <td>638</td>
       <td>...</td>
-      <td>149</td>
-      <td>230</td>
       <td>16</td>
       <td>1603</td>
       <td>1596</td>
       <td>536</td>
       <td>1114</td>
+      <td>219</td>
+      <td>583</td>
       <td>312</td>
       <td>479</td>
       <td>0.428571</td>
@@ -637,13 +639,13 @@ combine_winning_losing_stats_for_year.head()
       <td>387</td>
       <td>1071</td>
       <td>...</td>
-      <td>32</td>
-      <td>53</td>
       <td>6</td>
       <td>1685</td>
       <td>1412</td>
       <td>568</td>
       <td>1177</td>
+      <td>237</td>
+      <td>622</td>
       <td>312</td>
       <td>440</td>
       <td>0.785714</td>
@@ -661,13 +663,13 @@ combine_winning_losing_stats_for_year.head()
       <td>266</td>
       <td>824</td>
       <td>...</td>
-      <td>81</td>
-      <td>113</td>
       <td>12</td>
       <td>1776</td>
       <td>1599</td>
       <td>621</td>
       <td>1384</td>
+      <td>258</td>
+      <td>708</td>
       <td>276</td>
       <td>379</td>
       <td>0.586207</td>
@@ -685,13 +687,13 @@ combine_winning_losing_stats_for_year.head()
       <td>332</td>
       <td>1143</td>
       <td>...</td>
-      <td>58</td>
-      <td>82</td>
       <td>6</td>
       <td>1778</td>
       <td>1528</td>
       <td>614</td>
       <td>1276</td>
+      <td>241</td>
+      <td>607</td>
       <td>309</td>
       <td>414</td>
       <td>0.785714</td>
@@ -709,20 +711,20 @@ combine_winning_losing_stats_for_year.head()
       <td>418</td>
       <td>1168</td>
       <td>...</td>
-      <td>97</td>
-      <td>128</td>
       <td>8</td>
       <td>2055</td>
       <td>1707</td>
       <td>684</td>
       <td>1408</td>
+      <td>272</td>
+      <td>674</td>
       <td>415</td>
       <td>546</td>
       <td>0.733333</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 28 columns</p>
+<p>5 rows × 30 columns</p>
 </div>
 
 
@@ -741,7 +743,12 @@ cumulative_stats_for_team_each_year = (
     .pipe(lambda x:x.assign(WFGP = x.WFGM/x.WFGA))
     .pipe(lambda x:x.assign(WFG3P = x.WFGM3/x.WFGA3))
     .pipe(lambda x:x.assign(WFTP = x.WFTM/x.WFTA))
-    .pipe(lambda x:x.assign())
+    .pipe(lambda x:x.assign(LFGP = x.LFGM/x.LFGA))
+    .pipe(lambda x:x.assign(LFG3P = x.LFGM3/x.LFGA3))
+    .pipe(lambda x:x.assign(LFTP = x.LFTM/x.LFTA))
+    .pipe(lambda x:x.assign(fgp = x.total_fgm/x.total_fga))
+    .pipe(lambda x:x.assign(fg3p = x.total_fg3m/x.total_fg3a))
+    .pipe(lambda x:x.assign(ftp = x.total_ftm/x.total_fta))
 )
 ```
 
@@ -782,16 +789,16 @@ cumulative_stats_for_team_each_year.head()
       <th>losing_opponent_score</th>
       <th>winning_num_counts</th>
       <th>...</th>
-      <th>losing_num_counts</th>
-      <th>total_score</th>
-      <th>total_opponent_score</th>
-      <th>total_fgm</th>
-      <th>total_fga</th>
-      <th>total_ftm</th>
-      <th>total_fta</th>
-      <th>TeamID</th>
       <th>win_rate</th>
       <th>WFGP</th>
+      <th>WFG3P</th>
+      <th>WFTP</th>
+      <th>LFGP</th>
+      <th>LFG3P</th>
+      <th>LFTP</th>
+      <th>fgp</th>
+      <th>fg3p</th>
+      <th>ftp</th>
     </tr>
   </thead>
   <tbody>
@@ -808,16 +815,16 @@ cumulative_stats_for_team_each_year.head()
       <td>638</td>
       <td>12</td>
       <td>...</td>
-      <td>16</td>
-      <td>1603</td>
-      <td>1596</td>
-      <td>536</td>
-      <td>1114</td>
-      <td>312</td>
-      <td>479</td>
-      <td>1102</td>
       <td>0.428571</td>
       <td>0.564583</td>
+      <td>0.463320</td>
+      <td>0.654618</td>
+      <td>0.417981</td>
+      <td>0.305556</td>
+      <td>0.647826</td>
+      <td>0.481149</td>
+      <td>0.375643</td>
+      <td>0.651357</td>
     </tr>
     <tr>
       <th>327</th>
@@ -832,16 +839,16 @@ cumulative_stats_for_team_each_year.head()
       <td>1709</td>
       <td>34</td>
       <td>...</td>
-      <td>22</td>
-      <td>3288</td>
-      <td>3008</td>
-      <td>1104</td>
-      <td>2291</td>
-      <td>624</td>
-      <td>919</td>
-      <td>1102</td>
       <td>0.607143</td>
       <td>0.529074</td>
+      <td>0.425068</td>
+      <td>0.696541</td>
+      <td>0.408686</td>
+      <td>0.305732</td>
+      <td>0.639576</td>
+      <td>0.481886</td>
+      <td>0.378423</td>
+      <td>0.678999</td>
     </tr>
     <tr>
       <th>653</th>
@@ -856,16 +863,16 @@ cumulative_stats_for_team_each_year.head()
       <td>2533</td>
       <td>51</td>
       <td>...</td>
-      <td>34</td>
-      <td>5064</td>
-      <td>4607</td>
-      <td>1725</td>
-      <td>3675</td>
-      <td>900</td>
-      <td>1298</td>
-      <td>1102</td>
       <td>0.600000</td>
       <td>0.511468</td>
+      <td>0.412613</td>
+      <td>0.707317</td>
+      <td>0.408027</td>
+      <td>0.318804</td>
+      <td>0.661616</td>
+      <td>0.469388</td>
+      <td>0.373236</td>
+      <td>0.693374</td>
     </tr>
     <tr>
       <th>982</th>
@@ -880,16 +887,16 @@ cumulative_stats_for_team_each_year.head()
       <td>3676</td>
       <td>73</td>
       <td>...</td>
-      <td>40</td>
-      <td>6842</td>
-      <td>6135</td>
-      <td>2339</td>
-      <td>4951</td>
-      <td>1209</td>
-      <td>1712</td>
-      <td>1102</td>
       <td>0.646018</td>
       <td>0.505834</td>
+      <td>0.414987</td>
+      <td>0.720421</td>
+      <td>0.412921</td>
+      <td>0.317597</td>
+      <td>0.669456</td>
+      <td>0.472430</td>
+      <td>0.378968</td>
+      <td>0.706192</td>
     </tr>
     <tr>
       <th>1316</th>
@@ -904,165 +911,59 @@ cumulative_stats_for_team_each_year.head()
       <td>4844</td>
       <td>95</td>
       <td>...</td>
-      <td>48</td>
-      <td>8897</td>
-      <td>7842</td>
-      <td>3023</td>
-      <td>6359</td>
-      <td>1624</td>
-      <td>2258</td>
-      <td>1102</td>
       <td>0.664336</td>
       <td>0.507729</td>
+      <td>0.422125</td>
+      <td>0.730630</td>
+      <td>0.412256</td>
+      <td>0.315093</td>
+      <td>0.688119</td>
+      <td>0.475389</td>
+      <td>0.384158</td>
+      <td>0.719221</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 28 columns</p>
+<p>5 rows × 38 columns</p>
 </div>
-
-
-
-
-```python
-combine_winning_losing_stats_for_year.dtypes
-```
-
-
-
-
-    Season                      int64
-    WTeamID                     int64
-    WScore                      int64
-    WFGM                        int64
-    WFGA                        int64
-    WFGM3                       int64
-    WFGA3                       int64
-    WFTM                        int64
-    WFTA                        int64
-    losing_opponent_score       int64
-    winning_num_counts          int64
-    LTeamID                     int64
-    winning_opponent_score      int64
-    LScore                      int64
-    LFGM                        int64
-    LFGA                        int64
-    LFGM3                       int64
-    LFGA3                       int64
-    LFTM                        int64
-    LFTA                        int64
-    losing_num_counts           int64
-    total_score                 int64
-    total_opponent_score        int64
-    total_fgm                   int64
-    total_fga                   int64
-    total_ftm                   int64
-    total_fta                   int64
-    win_rate                  float64
-    dtype: object
 
 
 
 ## Some variations to try for features
 - separate winning and losing
-- 
+    - reconcilation of winning and losing will have to be done later
+    - could be diff between percentage --> this might give an insight of when they are losing/winning?
 
 ## Intermediate Variables
 - Coach stats
+    - number of years till that season
+    - number of championship till that season
+    - number of playoffs made till that season
+    - win rate of total games till that season
+        - consider regular or playoff only?
 - win rate for home court
 - win rate for away court
 - win rate for neutral court
 - offensive stats
+    - offensive rebounds
+    - points scored
+    - might try play by play later?
 - defensive stats
+    - defensive rebounds
+    - points scored by opponents
+    - might try play by play later?
 - blocks, steals and personal fouls
 
 
-```python
-train_df = prediction_df.query("Season <= 2013")
-test_df = prediction_df.query("Season >= 2014")
-```
+#### reconcilation of intermediate variables
+- relative scoring method
+     - will have a score of between 0 to 1
 
 
-```python
-train_data_x = train_df[['diff_seed']]
-train_data_y = train_df['yhat']
-
-test_data_x = test_df[['diff_seed']]
-test_data_y = test_df['yhat']
-```
-
-## Initializing Logistics Regression
-
-
-```python
-logreg = linear_model.LogisticRegression()
-```
-
-
-```python
-logreg.fit(train_data_x,train_data_y)
-```
-
-
-
-
-    LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
-              intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
-              penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
-              verbose=0, warm_start=False)
-
-
-
-
-```python
-#logreg.predict(test_df[['diff_seed']])
-```
-
-
-
-
-    array([1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-           1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1,
-           1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
-           1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1,
-           0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1,
-           1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-           1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-           1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1,
-           1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1,
-           0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
-           1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1,
-           0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1,
-           0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-           0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,
-           0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0,
-           0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0,
-           0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-           0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-           0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0,
-           0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-           0, 1, 0, 1, 0, 0, 1])
-
-
-
-
-```python
-test_results = pd.DataFrame(logreg.predict(test_df[['diff_seed']])).rename(columns={0:"prediction_result"})
-```
-
-
-```python
-logreg.score(test_data_x,test_data_y)
-```
-
-
-
-
-    0.70895522388059706
-
-
+#### features being throw into prediction model
+- test out raw intermediate variables
+    - then test out difference in values
+    - or something else
 
 
 ```python

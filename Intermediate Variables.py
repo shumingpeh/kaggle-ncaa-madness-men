@@ -110,6 +110,8 @@ combine_winning_losing_stats_for_year = (
     .pipe(lambda x:x.assign(total_opponent_score = x.winning_opponent_score + x.losing_opponent_score))
     .pipe(lambda x:x.assign(total_fgm = x.WFGM + x.LFGM))
     .pipe(lambda x:x.assign(total_fga = x.WFGA + x.LFGA))
+    .pipe(lambda x:x.assign(total_fg3m = x.WFGM3 + x.LFGM3))
+    .pipe(lambda x:x.assign(total_fg3a = x.WFGA3 + x.LFGA3))
     .pipe(lambda x:x.assign(total_ftm = x.WFTM + x.LFTM))
     .pipe(lambda x:x.assign(total_fta = x.WFTA + x.LFTA))
     .pipe(lambda x:x.assign(win_rate = x.winning_num_counts/(x.winning_num_counts + x.losing_num_counts)))
@@ -136,7 +138,12 @@ cumulative_stats_for_team_each_year = (
     .pipe(lambda x:x.assign(WFGP = x.WFGM/x.WFGA))
     .pipe(lambda x:x.assign(WFG3P = x.WFGM3/x.WFGA3))
     .pipe(lambda x:x.assign(WFTP = x.WFTM/x.WFTA))
-    .pipe(lambda x:x.assign())
+    .pipe(lambda x:x.assign(LFGP = x.LFGM/x.LFGA))
+    .pipe(lambda x:x.assign(LFG3P = x.LFGM3/x.LFGA3))
+    .pipe(lambda x:x.assign(LFTP = x.LFTM/x.LFTA))
+    .pipe(lambda x:x.assign(fgp = x.total_fgm/x.total_fga))
+    .pipe(lambda x:x.assign(fg3p = x.total_fg3m/x.total_fg3a))
+    .pipe(lambda x:x.assign(ftp = x.total_ftm/x.total_fta))
 )
 
 
@@ -145,65 +152,41 @@ cumulative_stats_for_team_each_year = (
 cumulative_stats_for_team_each_year.head()
 
 
-
-
-combine_winning_losing_stats_for_year.dtypes
-
-
 # ## Some variations to try for features
 # - separate winning and losing
-# - 
+#     - reconcilation of winning and losing will have to be done later
+#     - could be diff between percentage --> this might give an insight of when they are losing/winning?
 
 # ## Intermediate Variables
 # - Coach stats
+#     - number of years till that season
+#     - number of championship till that season
+#     - number of playoffs made till that season
+#     - win rate of total games till that season
+#         - consider regular or playoff only?
 # - win rate for home court
 # - win rate for away court
 # - win rate for neutral court
 # - offensive stats
+#     - offensive rebounds
+#     - points scored
+#     - might try play by play later?
 # - defensive stats
+#     - defensive rebounds
+#     - points scored by opponents
+#     - might try play by play later?
 # - blocks, steals and personal fouls
-
-
-
-train_df = prediction_df.query("Season <= 2013")
-test_df = prediction_df.query("Season >= 2014")
-
-
-
-
-train_data_x = train_df[['diff_seed']]
-train_data_y = train_df['yhat']
-
-test_data_x = test_df[['diff_seed']]
-test_data_y = test_df['yhat']
-
-
-# ## Initializing Logistics Regression
-
-
-
-logreg = linear_model.LogisticRegression()
-
-
-
-
-logreg.fit(train_data_x,train_data_y)
-
-
-
-
-#logreg.predict(test_df[['diff_seed']])
-
-
-
-
-test_results = pd.DataFrame(logreg.predict(test_df[['diff_seed']])).rename(columns={0:"prediction_result"})
-
-
-
-
-logreg.score(test_data_x,test_data_y)
-
+# 
+# 
+# #### reconcilation of intermediate variables
+# - relative scoring method
+#      - will have a score of between 0 to 1
+# 
+# 
+# #### features being throw into prediction model
+# - test out raw intermediate variables
+#     - then test out difference in values
+#     - or something else
 
 
 
