@@ -53,8 +53,10 @@ And log unto github to submit a Pull Request to merge your branch with master.
 	- losing score
 	- winning field goal percentage
 	- winning three point percentage
+	- winning free throw percentage
 	- losing field goal percentage
 	- losing three point percentage
+	- losing free throw percentage
 2. Add in all intermediate variables that will be used in our final model
 	- winning and losing team offensive and defensive rebounds
 	- winning and losing team assits
