@@ -63,7 +63,7 @@ raw_data_regularseason.dtypes
 # - winning/losing field goal percentage
 # - winning/losing field goal 3 point percentage
 # - winning/losing free throw percentage
-# - win rate
+# - overall win rate
 
 
 
@@ -174,6 +174,7 @@ cumulative_stats_for_team_each_year.head()
 # - defensive stats
 #     - defensive rebounds
 #     - points scored by opponents
+#     - turn over from play by play???
 #     - might try play by play later?
 # - blocks, steals and personal fouls
 # 
