@@ -765,15 +765,118 @@ win_rate_location_test = win_rate_type_of_location.WinRateTypeLocation("data/Dat
 
 
 
-win_rate_location_test.win_rate_cum_away_df.head()
+win_rate_location_test.processed_cumulative_win_rate_df.head()
 
 
 
 
-win_rate_location_test.win_rate_cum_home_df.head()
+test = test_features.processed_overall
 
 
 
 
-win_rate_location_test.win_rate_cum_neutral_df.head()
+test.head()
+
+
+
+
+# this combines type of win rate to build features table
+win_rate_features_combine = (
+    test
+    .merge(win_rate_location_test.processed_win_rate_df, how='left',on=['Season','TeamID'])
+    .fillna(0)
+)
+
+
+
+
+win_rate_features_combine.head()
+
+
+
+
+coach_file = 'data/DataFiles/TeamCoaches.csv'
+regularseason_file = 'data/DataFiles/RegularSeasonDetailedResults.csv'
+postseason_file = 'data/DataFiles/NCAATourneyCompactResults.csv'
+
+
+
+
+from aggregate_function import coach_stats
+testing_df = coach_stats.CoachStats(coach_file,regularseason_file,postseason_file)
+
+
+
+
+testing_df.cumulative_final_coach_stats_table.head()
+
+
+
+
+final_table = (
+    win_rate_features_combine
+    .merge(testing_df.cumulative_final_coach_stats_table[['Season','TeamID','num_season',
+                                               'is_playoff','is_champion','win_rate_post',
+                                               'win_rate_regular','win_rate_overall','CoachName']],
+          how='left',on=['Season','TeamID'])
+)
+final_table.head()
+
+
+
+
+final_table_copy = final_table.drop(['Season','TeamID','CoachName','win_rate','fgp','fg3p','ftp',
+                                     'total_off_rebounds_percent','total_def_rebounds_percent',
+                                     'total_rebound_possession_percent','total_rebound_possessiongain_percent',
+                                     'total_block_opp_FGA_percent','win_rate_away','win_rate_home','win_rate_neutral',
+                                     'win_rate_post','win_rate_regular','win_rate_overall'],1)
+final_table_copy.dtypes
+
+
+
+
+final_table_copy
+
+
+
+
+scaler = MinMaxScaler()
+minmax_scale = scaler.fit(final_table_copy)
+df_minmax = minmax_scale.transform(final_table_copy)
+
+
+
+
+test_out = pd.DataFrame(df_minmax)
+
+
+
+
+test_out.columns = ['total_score', 'total_opponent_score', 'total_rebounds',
+       'total_off_rebounds', 'total_def_rebounds', 'total_blocks',
+       'total_assists', 'total_steals', 'total_turnover',
+       'total_personalfoul', 'total_assist_per_fgm',
+       'total_assist_turnover_ratio', 'expectation_per_game',
+       'avg_lose_score_by', 'avg_win_score_by', 'num_season', 'is_playoff',
+       'is_champion']
+
+
+
+
+pd.DataFrame(final_table_copy.dtypes).index.values
+
+
+
+
+test_out.columns = pd.DataFrame(final_table_copy.dtypes).index.values
+
+
+
+
+from aggregate_function import combine_features_table
+
+
+
+
+combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
 

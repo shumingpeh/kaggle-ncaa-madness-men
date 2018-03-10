@@ -19,6 +19,8 @@ class WinRateTypeLocation():
         self.win_rate_cum_away()
         self.win_rate_cum_home()
         self.win_rate_cum_neutral()
+        self.processed_table_win_rate()
+        self.processed_table_cumulative_win_rate()
 
     def games_won(self):
         """Number of games won on each type of location"""
@@ -128,4 +130,28 @@ class WinRateTypeLocation():
             .pipe(lambda x:x.assign(Season = self.win_rate_neutral_df.Season.values))
             .pipe(lambda x:x.assign(TeamID = self.win_rate_neutral_df.TeamID.values))
             .pipe(lambda x:x.assign(win_rate_neutral = x.games_won/(x.games_won+x.games_lost)))
+        )
+
+    def processed_table_win_rate(self):
+        """ Processed table for win rate of type of location
+        """
+        self.processed_win_rate_df = (
+            self.win_rate_away_df
+            .merge(self.win_rate_home_df,how='left',on=['Season','TeamID'])
+            .fillna(0)
+            .merge(self.win_rate_neutral_df,how='left',on=['Season','TeamID'])
+            .fillna(0)
+            [['Season','TeamID','win_rate_away','win_rate_home','win_rate_neutral']]
+        )
+
+    def processed_table_cumulative_win_rate(self):
+        """ Processed table for cumulative win rate of type of location
+        """
+        self.processed_cumulative_win_rate_df = (
+            self.win_rate_cum_away_df
+            .merge(self.win_rate_cum_home_df,how='left',on=['Season','TeamID'])
+            .fillna(0)
+            .merge(self.win_rate_cum_neutral_df,how='left',on=['Season','TeamID'])
+            .fillna(0)
+            [['Season','TeamID','win_rate_away','win_rate_home','win_rate_neutral']]
         )

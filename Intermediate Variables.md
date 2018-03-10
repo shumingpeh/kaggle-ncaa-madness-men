@@ -4446,7 +4446,7 @@ win_rate_location_test = win_rate_type_of_location.WinRateTypeLocation("data/Dat
 
 
 ```python
-win_rate_location_test.win_rate_cum_away_df.head()
+win_rate_location_test.processed_cumulative_win_rate_df.head()
 ```
 
 
@@ -4471,233 +4471,2235 @@ win_rate_location_test.win_rate_cum_away_df.head()
     <tr style="text-align: right;">
       <th></th>
       <th>Season</th>
-      <th>games_won</th>
-      <th>games_lost</th>
-      <th>win_rate</th>
       <th>TeamID</th>
       <th>win_rate_away</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>10783</th>
-      <td>2014</td>
-      <td>0.0</td>
-      <td>5.0</td>
-      <td>0.000000</td>
-      <td>1101</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>11801</th>
-      <td>2015</td>
-      <td>1.0</td>
-      <td>11.0</td>
-      <td>0.142857</td>
-      <td>1101</td>
-      <td>0.083333</td>
-    </tr>
-    <tr>
-      <th>12821</th>
-      <td>2016</td>
-      <td>3.0</td>
-      <td>16.0</td>
-      <td>0.428571</td>
-      <td>1101</td>
-      <td>0.157895</td>
-    </tr>
-    <tr>
-      <th>13839</th>
-      <td>2017</td>
-      <td>7.0</td>
-      <td>21.0</td>
-      <td>0.873016</td>
-      <td>1101</td>
-      <td>0.250000</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>2003</td>
-      <td>3.0</td>
-      <td>4.0</td>
-      <td>0.428571</td>
-      <td>1102</td>
-      <td>0.428571</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-win_rate_location_test.win_rate_cum_home_df.head()
-```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Season</th>
-      <th>games_won</th>
-      <th>games_lost</th>
-      <th>win_rate</th>
-      <th>TeamID</th>
       <th>win_rate_home</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>10784</th>
-      <td>2014</td>
-      <td>2.0</td>
-      <td>14.0</td>
-      <td>0.125000</td>
-      <td>1101</td>
-      <td>0.125000</td>
-    </tr>
-    <tr>
-      <th>11802</th>
-      <td>2015</td>
-      <td>6.0</td>
-      <td>28.0</td>
-      <td>0.347222</td>
-      <td>1101</td>
-      <td>0.176471</td>
-    </tr>
-    <tr>
-      <th>12822</th>
-      <td>2016</td>
-      <td>12.0</td>
-      <td>40.0</td>
-      <td>0.680556</td>
-      <td>1101</td>
-      <td>0.230769</td>
-    </tr>
-    <tr>
-      <th>13840</th>
-      <td>2017</td>
-      <td>17.0</td>
-      <td>51.0</td>
-      <td>0.993056</td>
-      <td>1101</td>
-      <td>0.250000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2003</td>
-      <td>9.0</td>
-      <td>10.0</td>
-      <td>0.473684</td>
-      <td>1102</td>
-      <td>0.473684</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-win_rate_location_test.win_rate_cum_neutral_df.head()
-```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Season</th>
-      <th>games_won</th>
-      <th>games_lost</th>
-      <th>win_rate</th>
-      <th>TeamID</th>
       <th>win_rate_neutral</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>11803</th>
-      <td>2015</td>
-      <td>2.0</td>
-      <td>1.0</td>
-      <td>0.666667</td>
+      <th>0</th>
+      <td>2014</td>
       <td>1101</td>
-      <td>0.666667</td>
+      <td>0.000000</td>
+      <td>0.125000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
-      <th>12823</th>
-      <td>2016</td>
-      <td>3.0</td>
-      <td>2.0</td>
-      <td>1.166667</td>
+      <th>1</th>
+      <td>2015</td>
       <td>1101</td>
-      <td>0.600000</td>
+      <td>0.083333</td>
+      <td>0.176471</td>
+      <td>0.666667</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2003</td>
-      <td>0.0</td>
-      <td>2.0</td>
-      <td>0.000000</td>
-      <td>1102</td>
-      <td>0.000000</td>
+      <td>2016</td>
+      <td>1101</td>
+      <td>0.157895</td>
+      <td>0.230769</td>
+      <td>0.600000</td>
     </tr>
     <tr>
-      <th>945</th>
-      <td>2004</td>
-      <td>1.0</td>
-      <td>3.0</td>
-      <td>0.500000</td>
-      <td>1102</td>
+      <th>3</th>
+      <td>2017</td>
+      <td>1101</td>
       <td>0.250000</td>
+      <td>0.250000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
-      <th>1885</th>
-      <td>2005</td>
-      <td>3.0</td>
-      <td>5.0</td>
-      <td>1.000000</td>
+      <th>4</th>
+      <td>2003</td>
       <td>1102</td>
-      <td>0.375000</td>
+      <td>0.428571</td>
+      <td>0.473684</td>
+      <td>0.000000</td>
     </tr>
   </tbody>
 </table>
 </div>
 
+
+
+
+```python
+test = test_features.processed_overall
+```
+
+
+```python
+test.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Season</th>
+      <th>TeamID</th>
+      <th>win_rate</th>
+      <th>total_score</th>
+      <th>total_opponent_score</th>
+      <th>fgp</th>
+      <th>fg3p</th>
+      <th>ftp</th>
+      <th>total_rebounds</th>
+      <th>total_off_rebounds</th>
+      <th>...</th>
+      <th>total_assists</th>
+      <th>total_steals</th>
+      <th>total_turnover</th>
+      <th>total_personalfoul</th>
+      <th>total_block_opp_FGA_percent</th>
+      <th>total_assist_per_fgm</th>
+      <th>total_assist_turnover_ratio</th>
+      <th>expectation_per_game</th>
+      <th>avg_lose_score_by</th>
+      <th>avg_win_score_by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2003</td>
+      <td>1102</td>
+      <td>0.428571</td>
+      <td>1603</td>
+      <td>1596</td>
+      <td>0.481149</td>
+      <td>0.375643</td>
+      <td>0.651357</td>
+      <td>588</td>
+      <td>117</td>
+      <td>...</td>
+      <td>364</td>
+      <td>167</td>
+      <td>320</td>
+      <td>525</td>
+      <td>0.042088</td>
+      <td>0.679104</td>
+      <td>1.137500</td>
+      <td>0.250000</td>
+      <td>-11.250000</td>
+      <td>15.583333</td>
+    </tr>
+    <tr>
+      <th>327</th>
+      <td>2004</td>
+      <td>1102</td>
+      <td>0.785714</td>
+      <td>1685</td>
+      <td>1412</td>
+      <td>0.482583</td>
+      <td>0.381029</td>
+      <td>0.709091</td>
+      <td>602</td>
+      <td>172</td>
+      <td>...</td>
+      <td>371</td>
+      <td>218</td>
+      <td>302</td>
+      <td>466</td>
+      <td>0.058407</td>
+      <td>0.653169</td>
+      <td>1.228477</td>
+      <td>9.750000</td>
+      <td>-10.000000</td>
+      <td>15.136364</td>
+    </tr>
+    <tr>
+      <th>653</th>
+      <td>2005</td>
+      <td>1102</td>
+      <td>0.586207</td>
+      <td>1776</td>
+      <td>1599</td>
+      <td>0.448699</td>
+      <td>0.364407</td>
+      <td>0.728232</td>
+      <td>668</td>
+      <td>221</td>
+      <td>...</td>
+      <td>396</td>
+      <td>255</td>
+      <td>292</td>
+      <td>478</td>
+      <td>0.043066</td>
+      <td>0.637681</td>
+      <td>1.356164</td>
+      <td>6.103448</td>
+      <td>-8.000000</td>
+      <td>16.058824</td>
+    </tr>
+    <tr>
+      <th>982</th>
+      <td>2006</td>
+      <td>1102</td>
+      <td>0.785714</td>
+      <td>1778</td>
+      <td>1528</td>
+      <td>0.481191</td>
+      <td>0.397035</td>
+      <td>0.746377</td>
+      <td>688</td>
+      <td>190</td>
+      <td>...</td>
+      <td>397</td>
+      <td>224</td>
+      <td>306</td>
+      <td>431</td>
+      <td>0.045986</td>
+      <td>0.646580</td>
+      <td>1.297386</td>
+      <td>8.928571</td>
+      <td>-6.166667</td>
+      <td>13.045455</td>
+    </tr>
+    <tr>
+      <th>1316</th>
+      <td>2007</td>
+      <td>1102</td>
+      <td>0.733333</td>
+      <td>2055</td>
+      <td>1707</td>
+      <td>0.485795</td>
+      <td>0.403561</td>
+      <td>0.760073</td>
+      <td>820</td>
+      <td>194</td>
+      <td>...</td>
+      <td>451</td>
+      <td>188</td>
+      <td>305</td>
+      <td>455</td>
+      <td>0.030199</td>
+      <td>0.659357</td>
+      <td>1.478689</td>
+      <td>11.600000</td>
+      <td>-9.375000</td>
+      <td>19.227273</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 26 columns</p>
+</div>
+
+
+
+
+```python
+# this combines type of win rate to build features table
+win_rate_features_combine = (
+    test
+    .merge(win_rate_location_test.processed_win_rate_df, how='left',on=['Season','TeamID'])
+    .fillna(0)
+)
+```
+
+
+```python
+win_rate_features_combine.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Season</th>
+      <th>TeamID</th>
+      <th>win_rate</th>
+      <th>total_score</th>
+      <th>total_opponent_score</th>
+      <th>fgp</th>
+      <th>fg3p</th>
+      <th>ftp</th>
+      <th>total_rebounds</th>
+      <th>total_off_rebounds</th>
+      <th>...</th>
+      <th>total_personalfoul</th>
+      <th>total_block_opp_FGA_percent</th>
+      <th>total_assist_per_fgm</th>
+      <th>total_assist_turnover_ratio</th>
+      <th>expectation_per_game</th>
+      <th>avg_lose_score_by</th>
+      <th>avg_win_score_by</th>
+      <th>win_rate_away</th>
+      <th>win_rate_home</th>
+      <th>win_rate_neutral</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2003</td>
+      <td>1102</td>
+      <td>0.428571</td>
+      <td>1603</td>
+      <td>1596</td>
+      <td>0.481149</td>
+      <td>0.375643</td>
+      <td>0.651357</td>
+      <td>588</td>
+      <td>117</td>
+      <td>...</td>
+      <td>525</td>
+      <td>0.042088</td>
+      <td>0.679104</td>
+      <td>1.137500</td>
+      <td>0.250000</td>
+      <td>-11.250000</td>
+      <td>15.583333</td>
+      <td>0.428571</td>
+      <td>0.473684</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2004</td>
+      <td>1102</td>
+      <td>0.785714</td>
+      <td>1685</td>
+      <td>1412</td>
+      <td>0.482583</td>
+      <td>0.381029</td>
+      <td>0.709091</td>
+      <td>602</td>
+      <td>172</td>
+      <td>...</td>
+      <td>466</td>
+      <td>0.058407</td>
+      <td>0.653169</td>
+      <td>1.228477</td>
+      <td>9.750000</td>
+      <td>-10.000000</td>
+      <td>15.136364</td>
+      <td>1.000000</td>
+      <td>0.722222</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2005</td>
+      <td>1102</td>
+      <td>0.586207</td>
+      <td>1776</td>
+      <td>1599</td>
+      <td>0.448699</td>
+      <td>0.364407</td>
+      <td>0.728232</td>
+      <td>668</td>
+      <td>221</td>
+      <td>...</td>
+      <td>478</td>
+      <td>0.043066</td>
+      <td>0.637681</td>
+      <td>1.356164</td>
+      <td>6.103448</td>
+      <td>-8.000000</td>
+      <td>16.058824</td>
+      <td>0.800000</td>
+      <td>0.550000</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2006</td>
+      <td>1102</td>
+      <td>0.785714</td>
+      <td>1778</td>
+      <td>1528</td>
+      <td>0.481191</td>
+      <td>0.397035</td>
+      <td>0.746377</td>
+      <td>688</td>
+      <td>190</td>
+      <td>...</td>
+      <td>431</td>
+      <td>0.045986</td>
+      <td>0.646580</td>
+      <td>1.297386</td>
+      <td>8.928571</td>
+      <td>-6.166667</td>
+      <td>13.045455</td>
+      <td>1.000000</td>
+      <td>0.736842</td>
+      <td>0.666667</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2007</td>
+      <td>1102</td>
+      <td>0.733333</td>
+      <td>2055</td>
+      <td>1707</td>
+      <td>0.485795</td>
+      <td>0.403561</td>
+      <td>0.760073</td>
+      <td>820</td>
+      <td>194</td>
+      <td>...</td>
+      <td>455</td>
+      <td>0.030199</td>
+      <td>0.659357</td>
+      <td>1.478689</td>
+      <td>11.600000</td>
+      <td>-9.375000</td>
+      <td>19.227273</td>
+      <td>0.857143</td>
+      <td>0.722222</td>
+      <td>0.600000</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div>
+
+
+
+
+```python
+coach_file = 'data/DataFiles/TeamCoaches.csv'
+regularseason_file = 'data/DataFiles/RegularSeasonDetailedResults.csv'
+postseason_file = 'data/DataFiles/NCAATourneyCompactResults.csv'
+```
+
+
+```python
+from aggregate_function import coach_stats
+testing_df = coach_stats.CoachStats(coach_file,regularseason_file,postseason_file)
+```
+
+
+```python
+testing_df.cumulative_final_coach_stats_table.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Season</th>
+      <th>TeamID</th>
+      <th>daysexp</th>
+      <th>season_max_days</th>
+      <th>num_season</th>
+      <th>is_playoff</th>
+      <th>is_champion</th>
+      <th>post_games_lost</th>
+      <th>post_games_won</th>
+      <th>win_rate_post</th>
+      <th>games_lost</th>
+      <th>games_won</th>
+      <th>win_rate_regular</th>
+      <th>overall_games_won</th>
+      <th>overall_games_lost</th>
+      <th>win_rate_overall</th>
+      <th>CoachName</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1985</td>
+      <td>1224</td>
+      <td>154</td>
+      <td>154</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>a_b_williamson</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1986</td>
+      <td>1224</td>
+      <td>308</td>
+      <td>308</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>a_b_williamson</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1987</td>
+      <td>1224</td>
+      <td>462</td>
+      <td>462</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>a_b_williamson</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1988</td>
+      <td>1224</td>
+      <td>616</td>
+      <td>616</td>
+      <td>4.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>a_b_williamson</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1989</td>
+      <td>1224</td>
+      <td>770</td>
+      <td>770</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>a_b_williamson</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+final_table = (
+    win_rate_features_combine
+    .merge(testing_df.cumulative_final_coach_stats_table[['Season','TeamID','num_season',
+                                               'is_playoff','is_champion','win_rate_post',
+                                               'win_rate_regular','win_rate_overall','CoachName']],
+          how='left',on=['Season','TeamID'])
+)
+final_table.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Season</th>
+      <th>TeamID</th>
+      <th>win_rate</th>
+      <th>total_score</th>
+      <th>total_opponent_score</th>
+      <th>fgp</th>
+      <th>fg3p</th>
+      <th>ftp</th>
+      <th>total_rebounds</th>
+      <th>total_off_rebounds</th>
+      <th>...</th>
+      <th>win_rate_away</th>
+      <th>win_rate_home</th>
+      <th>win_rate_neutral</th>
+      <th>num_season</th>
+      <th>is_playoff</th>
+      <th>is_champion</th>
+      <th>win_rate_post</th>
+      <th>win_rate_regular</th>
+      <th>win_rate_overall</th>
+      <th>CoachName</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2003</td>
+      <td>1102</td>
+      <td>0.428571</td>
+      <td>1603</td>
+      <td>1596</td>
+      <td>0.481149</td>
+      <td>0.375643</td>
+      <td>0.651357</td>
+      <td>588</td>
+      <td>117</td>
+      <td>...</td>
+      <td>0.428571</td>
+      <td>0.473684</td>
+      <td>0.000000</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>joe_scott</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2004</td>
+      <td>1102</td>
+      <td>0.785714</td>
+      <td>1685</td>
+      <td>1412</td>
+      <td>0.482583</td>
+      <td>0.381029</td>
+      <td>0.709091</td>
+      <td>602</td>
+      <td>172</td>
+      <td>...</td>
+      <td>1.000000</td>
+      <td>0.722222</td>
+      <td>0.500000</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+      <td>joe_scott</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2005</td>
+      <td>1102</td>
+      <td>0.586207</td>
+      <td>1776</td>
+      <td>1599</td>
+      <td>0.448699</td>
+      <td>0.364407</td>
+      <td>0.728232</td>
+      <td>668</td>
+      <td>221</td>
+      <td>...</td>
+      <td>0.800000</td>
+      <td>0.550000</td>
+      <td>0.500000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>chris_mooney</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2006</td>
+      <td>1102</td>
+      <td>0.785714</td>
+      <td>1778</td>
+      <td>1528</td>
+      <td>0.481191</td>
+      <td>0.397035</td>
+      <td>0.746377</td>
+      <td>688</td>
+      <td>190</td>
+      <td>...</td>
+      <td>1.000000</td>
+      <td>0.736842</td>
+      <td>0.666667</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+      <td>jeff_bzdelik</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2007</td>
+      <td>1102</td>
+      <td>0.733333</td>
+      <td>2055</td>
+      <td>1707</td>
+      <td>0.485795</td>
+      <td>0.403561</td>
+      <td>0.760073</td>
+      <td>820</td>
+      <td>194</td>
+      <td>...</td>
+      <td>0.857143</td>
+      <td>0.722222</td>
+      <td>0.600000</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+      <td>jeff_bzdelik</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 36 columns</p>
+</div>
+
+
+
+
+```python
+final_table_copy = final_table.drop(['Season','TeamID','CoachName','win_rate','fgp','fg3p','ftp',
+                                     'total_off_rebounds_percent','total_def_rebounds_percent',
+                                     'total_rebound_possession_percent','total_rebound_possessiongain_percent',
+                                     'total_block_opp_FGA_percent','win_rate_away','win_rate_home','win_rate_neutral',
+                                     'win_rate_post','win_rate_regular','win_rate_overall'],1)
+final_table_copy.dtypes
+```
+
+
+
+
+    total_score                      int64
+    total_opponent_score             int64
+    total_rebounds                   int64
+    total_off_rebounds               int64
+    total_def_rebounds               int64
+    total_blocks                     int64
+    total_assists                    int64
+    total_steals                     int64
+    total_turnover                   int64
+    total_personalfoul               int64
+    total_assist_per_fgm           float64
+    total_assist_turnover_ratio    float64
+    expectation_per_game           float64
+    avg_lose_score_by              float64
+    avg_win_score_by               float64
+    num_season                     float64
+    is_playoff                     float64
+    is_champion                    float64
+    dtype: object
+
+
+
+
+```python
+final_table_copy
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_score</th>
+      <th>total_opponent_score</th>
+      <th>total_rebounds</th>
+      <th>total_off_rebounds</th>
+      <th>total_def_rebounds</th>
+      <th>total_blocks</th>
+      <th>total_assists</th>
+      <th>total_steals</th>
+      <th>total_turnover</th>
+      <th>total_personalfoul</th>
+      <th>total_assist_per_fgm</th>
+      <th>total_assist_turnover_ratio</th>
+      <th>expectation_per_game</th>
+      <th>avg_lose_score_by</th>
+      <th>avg_win_score_by</th>
+      <th>num_season</th>
+      <th>is_playoff</th>
+      <th>is_champion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1603</td>
+      <td>1596</td>
+      <td>588</td>
+      <td>117</td>
+      <td>471</td>
+      <td>50</td>
+      <td>364</td>
+      <td>167</td>
+      <td>320</td>
+      <td>525</td>
+      <td>0.679104</td>
+      <td>1.137500</td>
+      <td>0.250000</td>
+      <td>-11.250000</td>
+      <td>15.583333</td>
+      <td>3.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1685</td>
+      <td>1412</td>
+      <td>602</td>
+      <td>172</td>
+      <td>430</td>
+      <td>66</td>
+      <td>371</td>
+      <td>218</td>
+      <td>302</td>
+      <td>466</td>
+      <td>0.653169</td>
+      <td>1.228477</td>
+      <td>9.750000</td>
+      <td>-10.000000</td>
+      <td>15.136364</td>
+      <td>4.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1776</td>
+      <td>1599</td>
+      <td>668</td>
+      <td>221</td>
+      <td>447</td>
+      <td>50</td>
+      <td>396</td>
+      <td>255</td>
+      <td>292</td>
+      <td>478</td>
+      <td>0.637681</td>
+      <td>1.356164</td>
+      <td>6.103448</td>
+      <td>-8.000000</td>
+      <td>16.058824</td>
+      <td>1.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1778</td>
+      <td>1528</td>
+      <td>688</td>
+      <td>190</td>
+      <td>498</td>
+      <td>59</td>
+      <td>397</td>
+      <td>224</td>
+      <td>306</td>
+      <td>431</td>
+      <td>0.646580</td>
+      <td>1.297386</td>
+      <td>8.928571</td>
+      <td>-6.166667</td>
+      <td>13.045455</td>
+      <td>3.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2055</td>
+      <td>1707</td>
+      <td>820</td>
+      <td>194</td>
+      <td>626</td>
+      <td>44</td>
+      <td>451</td>
+      <td>188</td>
+      <td>305</td>
+      <td>455</td>
+      <td>0.659357</td>
+      <td>1.478689</td>
+      <td>11.600000</td>
+      <td>-9.375000</td>
+      <td>19.227273</td>
+      <td>4.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1612</td>
+      <td>1605</td>
+      <td>745</td>
+      <td>147</td>
+      <td>598</td>
+      <td>50</td>
+      <td>334</td>
+      <td>173</td>
+      <td>355</td>
+      <td>481</td>
+      <td>0.643545</td>
+      <td>0.940845</td>
+      <td>0.250000</td>
+      <td>-11.571429</td>
+      <td>12.071429</td>
+      <td>1.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1665</td>
+      <td>1807</td>
+      <td>807</td>
+      <td>201</td>
+      <td>606</td>
+      <td>63</td>
+      <td>345</td>
+      <td>147</td>
+      <td>393</td>
+      <td>516</td>
+      <td>0.620504</td>
+      <td>0.877863</td>
+      <td>-4.896552</td>
+      <td>-12.523810</td>
+      <td>15.125000</td>
+      <td>2.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1613</td>
+      <td>1826</td>
+      <td>772</td>
+      <td>196</td>
+      <td>576</td>
+      <td>44</td>
+      <td>356</td>
+      <td>140</td>
+      <td>371</td>
+      <td>509</td>
+      <td>0.613793</td>
+      <td>0.959569</td>
+      <td>-7.344828</td>
+      <td>-15.238095</td>
+      <td>13.375000</td>
+      <td>3.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1799</td>
+      <td>1814</td>
+      <td>792</td>
+      <td>164</td>
+      <td>628</td>
+      <td>71</td>
+      <td>432</td>
+      <td>174</td>
+      <td>334</td>
+      <td>488</td>
+      <td>0.687898</td>
+      <td>1.293413</td>
+      <td>-0.535714</td>
+      <td>-12.500000</td>
+      <td>11.428571</td>
+      <td>4.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1638</td>
+      <td>1708</td>
+      <td>760</td>
+      <td>158</td>
+      <td>602</td>
+      <td>80</td>
+      <td>361</td>
+      <td>169</td>
+      <td>351</td>
+      <td>459</td>
+      <td>0.640071</td>
+      <td>1.028490</td>
+      <td>-2.592593</td>
+      <td>-11.937500</td>
+      <td>11.000000</td>
+      <td>0.350649</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1638</td>
+      <td>1708</td>
+      <td>760</td>
+      <td>158</td>
+      <td>602</td>
+      <td>80</td>
+      <td>361</td>
+      <td>169</td>
+      <td>351</td>
+      <td>459</td>
+      <td>0.640071</td>
+      <td>1.028490</td>
+      <td>-2.592593</td>
+      <td>-11.937500</td>
+      <td>11.000000</td>
+      <td>4.642857</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1930</td>
+      <td>1916</td>
+      <td>813</td>
+      <td>192</td>
+      <td>621</td>
+      <td>48</td>
+      <td>434</td>
+      <td>174</td>
+      <td>334</td>
+      <td>493</td>
+      <td>0.635432</td>
+      <td>1.299401</td>
+      <td>0.500000</td>
+      <td>-14.076923</td>
+      <td>13.133333</td>
+      <td>1.350649</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2127</td>
+      <td>2110</td>
+      <td>802</td>
+      <td>264</td>
+      <td>538</td>
+      <td>63</td>
+      <td>411</td>
+      <td>196</td>
+      <td>341</td>
+      <td>536</td>
+      <td>0.560709</td>
+      <td>1.205279</td>
+      <td>0.629630</td>
+      <td>-7.500000</td>
+      <td>9.384615</td>
+      <td>10.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2009</td>
+      <td>2020</td>
+      <td>940</td>
+      <td>314</td>
+      <td>626</td>
+      <td>71</td>
+      <td>423</td>
+      <td>207</td>
+      <td>409</td>
+      <td>545</td>
+      <td>0.607759</td>
+      <td>1.034230</td>
+      <td>-0.392857</td>
+      <td>-9.200000</td>
+      <td>9.769231</td>
+      <td>11.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2005</td>
+      <td>1855</td>
+      <td>934</td>
+      <td>288</td>
+      <td>646</td>
+      <td>108</td>
+      <td>451</td>
+      <td>189</td>
+      <td>374</td>
+      <td>527</td>
+      <td>0.649856</td>
+      <td>1.205882</td>
+      <td>5.357143</td>
+      <td>-8.200000</td>
+      <td>12.888889</td>
+      <td>3.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2144</td>
+      <td>1984</td>
+      <td>994</td>
+      <td>330</td>
+      <td>664</td>
+      <td>89</td>
+      <td>469</td>
+      <td>181</td>
+      <td>377</td>
+      <td>569</td>
+      <td>0.642466</td>
+      <td>1.244032</td>
+      <td>5.333333</td>
+      <td>-11.777778</td>
+      <td>12.666667</td>
+      <td>4.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2388</td>
+      <td>1979</td>
+      <td>1119</td>
+      <td>384</td>
+      <td>735</td>
+      <td>140</td>
+      <td>481</td>
+      <td>247</td>
+      <td>398</td>
+      <td>600</td>
+      <td>0.556069</td>
+      <td>1.208543</td>
+      <td>12.781250</td>
+      <td>-3.000000</td>
+      <td>17.200000</td>
+      <td>5.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2351</td>
+      <td>2105</td>
+      <td>1037</td>
+      <td>369</td>
+      <td>668</td>
+      <td>92</td>
+      <td>444</td>
+      <td>233</td>
+      <td>421</td>
+      <td>646</td>
+      <td>0.564168</td>
+      <td>1.054632</td>
+      <td>7.454545</td>
+      <td>-7.900000</td>
+      <td>14.130435</td>
+      <td>6.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2258</td>
+      <td>2057</td>
+      <td>1125</td>
+      <td>399</td>
+      <td>726</td>
+      <td>77</td>
+      <td>412</td>
+      <td>260</td>
+      <td>467</td>
+      <td>701</td>
+      <td>0.536458</td>
+      <td>0.882227</td>
+      <td>5.911765</td>
+      <td>-9.000000</td>
+      <td>14.045455</td>
+      <td>7.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2344</td>
+      <td>2193</td>
+      <td>1193</td>
+      <td>444</td>
+      <td>749</td>
+      <td>105</td>
+      <td>446</td>
+      <td>206</td>
+      <td>451</td>
+      <td>656</td>
+      <td>0.538647</td>
+      <td>0.988914</td>
+      <td>4.575758</td>
+      <td>-11.000000</td>
+      <td>11.347826</td>
+      <td>8.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2379</td>
+      <td>2255</td>
+      <td>1165</td>
+      <td>342</td>
+      <td>823</td>
+      <td>116</td>
+      <td>488</td>
+      <td>219</td>
+      <td>409</td>
+      <td>654</td>
+      <td>0.583732</td>
+      <td>1.193154</td>
+      <td>3.647059</td>
+      <td>-11.750000</td>
+      <td>12.045455</td>
+      <td>9.000000</td>
+      <td>2.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2287</td>
+      <td>2100</td>
+      <td>1121</td>
+      <td>361</td>
+      <td>760</td>
+      <td>138</td>
+      <td>439</td>
+      <td>234</td>
+      <td>459</td>
+      <td>586</td>
+      <td>0.546700</td>
+      <td>0.956427</td>
+      <td>5.843750</td>
+      <td>-9.454545</td>
+      <td>13.857143</td>
+      <td>10.000000</td>
+      <td>2.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2230</td>
+      <td>1930</td>
+      <td>1172</td>
+      <td>404</td>
+      <td>768</td>
+      <td>173</td>
+      <td>465</td>
+      <td>221</td>
+      <td>426</td>
+      <td>558</td>
+      <td>0.581977</td>
+      <td>1.091549</td>
+      <td>9.677419</td>
+      <td>-8.166667</td>
+      <td>13.960000</td>
+      <td>11.000000</td>
+      <td>3.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1940</td>
+      <td>1820</td>
+      <td>1050</td>
+      <td>380</td>
+      <td>670</td>
+      <td>106</td>
+      <td>339</td>
+      <td>185</td>
+      <td>372</td>
+      <td>505</td>
+      <td>0.503715</td>
+      <td>0.911290</td>
+      <td>4.285714</td>
+      <td>-9.454545</td>
+      <td>13.176471</td>
+      <td>8.000000</td>
+      <td>4.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>2094</td>
+      <td>1956</td>
+      <td>1024</td>
+      <td>328</td>
+      <td>696</td>
+      <td>90</td>
+      <td>344</td>
+      <td>187</td>
+      <td>385</td>
+      <td>532</td>
+      <td>0.476454</td>
+      <td>0.893506</td>
+      <td>4.758621</td>
+      <td>-7.583333</td>
+      <td>13.470588</td>
+      <td>9.000000</td>
+      <td>5.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2263</td>
+      <td>1945</td>
+      <td>1101</td>
+      <td>307</td>
+      <td>794</td>
+      <td>133</td>
+      <td>415</td>
+      <td>156</td>
+      <td>380</td>
+      <td>442</td>
+      <td>0.545335</td>
+      <td>1.092105</td>
+      <td>10.600000</td>
+      <td>-11.000000</td>
+      <td>17.173913</td>
+      <td>10.000000</td>
+      <td>6.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>2029</td>
+      <td>1947</td>
+      <td>1073</td>
+      <td>363</td>
+      <td>710</td>
+      <td>146</td>
+      <td>354</td>
+      <td>184</td>
+      <td>392</td>
+      <td>401</td>
+      <td>0.497890</td>
+      <td>0.903061</td>
+      <td>2.827586</td>
+      <td>-8.916667</td>
+      <td>11.117647</td>
+      <td>11.000000</td>
+      <td>7.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>2282</td>
+      <td>2134</td>
+      <td>1200</td>
+      <td>414</td>
+      <td>786</td>
+      <td>163</td>
+      <td>407</td>
+      <td>173</td>
+      <td>424</td>
+      <td>434</td>
+      <td>0.500615</td>
+      <td>0.959906</td>
+      <td>4.774194</td>
+      <td>-14.090909</td>
+      <td>15.150000</td>
+      <td>12.000000</td>
+      <td>7.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>2484</td>
+      <td>2404</td>
+      <td>1260</td>
+      <td>448</td>
+      <td>812</td>
+      <td>148</td>
+      <td>515</td>
+      <td>246</td>
+      <td>429</td>
+      <td>553</td>
+      <td>0.561614</td>
+      <td>1.200466</td>
+      <td>2.424242</td>
+      <td>-8.000000</td>
+      <td>12.235294</td>
+      <td>13.000000</td>
+      <td>7.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>2185</td>
+      <td>2140</td>
+      <td>1193</td>
+      <td>421</td>
+      <td>772</td>
+      <td>140</td>
+      <td>335</td>
+      <td>210</td>
+      <td>444</td>
+      <td>520</td>
+      <td>0.430039</td>
+      <td>0.754505</td>
+      <td>1.500000</td>
+      <td>-10.071429</td>
+      <td>11.625000</td>
+      <td>13.538961</td>
+      <td>7.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3730</th>
+      <td>2215</td>
+      <td>1951</td>
+      <td>1090</td>
+      <td>328</td>
+      <td>762</td>
+      <td>151</td>
+      <td>488</td>
+      <td>195</td>
+      <td>402</td>
+      <td>547</td>
+      <td>0.644650</td>
+      <td>1.213930</td>
+      <td>8.516129</td>
+      <td>-6.200000</td>
+      <td>15.523810</td>
+      <td>2.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3731</th>
+      <td>2445</td>
+      <td>2073</td>
+      <td>1082</td>
+      <td>349</td>
+      <td>733</td>
+      <td>113</td>
+      <td>483</td>
+      <td>184</td>
+      <td>412</td>
+      <td>563</td>
+      <td>0.604506</td>
+      <td>1.172330</td>
+      <td>11.625000</td>
+      <td>-6.625000</td>
+      <td>17.708333</td>
+      <td>3.000000</td>
+      <td>2.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3732</th>
+      <td>2486</td>
+      <td>2057</td>
+      <td>1190</td>
+      <td>372</td>
+      <td>818</td>
+      <td>114</td>
+      <td>513</td>
+      <td>184</td>
+      <td>438</td>
+      <td>572</td>
+      <td>0.610714</td>
+      <td>1.171233</td>
+      <td>13.000000</td>
+      <td>-10.500000</td>
+      <td>18.222222</td>
+      <td>4.000000</td>
+      <td>3.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3733</th>
+      <td>2316</td>
+      <td>1997</td>
+      <td>1263</td>
+      <td>386</td>
+      <td>877</td>
+      <td>164</td>
+      <td>431</td>
+      <td>172</td>
+      <td>480</td>
+      <td>596</td>
+      <td>0.553273</td>
+      <td>0.897917</td>
+      <td>9.968750</td>
+      <td>-8.000000</td>
+      <td>15.000000</td>
+      <td>5.000000</td>
+      <td>4.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3734</th>
+      <td>2561</td>
+      <td>2210</td>
+      <td>1283</td>
+      <td>400</td>
+      <td>883</td>
+      <td>122</td>
+      <td>458</td>
+      <td>217</td>
+      <td>423</td>
+      <td>601</td>
+      <td>0.518686</td>
+      <td>1.082742</td>
+      <td>10.968750</td>
+      <td>-8.625000</td>
+      <td>17.500000</td>
+      <td>1.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3735</th>
+      <td>2251</td>
+      <td>2001</td>
+      <td>1100</td>
+      <td>317</td>
+      <td>783</td>
+      <td>96</td>
+      <td>413</td>
+      <td>171</td>
+      <td>371</td>
+      <td>532</td>
+      <td>0.541284</td>
+      <td>1.113208</td>
+      <td>8.064516</td>
+      <td>-8.428571</td>
+      <td>12.875000</td>
+      <td>2.000000</td>
+      <td>2.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3736</th>
+      <td>2336</td>
+      <td>2226</td>
+      <td>1202</td>
+      <td>358</td>
+      <td>844</td>
+      <td>124</td>
+      <td>442</td>
+      <td>201</td>
+      <td>420</td>
+      <td>622</td>
+      <td>0.533172</td>
+      <td>1.052381</td>
+      <td>3.333333</td>
+      <td>-9.750000</td>
+      <td>10.809524</td>
+      <td>3.000000</td>
+      <td>3.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3737</th>
+      <td>2021</td>
+      <td>1936</td>
+      <td>1092</td>
+      <td>329</td>
+      <td>763</td>
+      <td>86</td>
+      <td>348</td>
+      <td>164</td>
+      <td>402</td>
+      <td>541</td>
+      <td>0.481994</td>
+      <td>0.865672</td>
+      <td>2.741935</td>
+      <td>-5.428571</td>
+      <td>9.470588</td>
+      <td>4.000000</td>
+      <td>3.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3738</th>
+      <td>1772</td>
+      <td>1736</td>
+      <td>870</td>
+      <td>243</td>
+      <td>627</td>
+      <td>57</td>
+      <td>379</td>
+      <td>192</td>
+      <td>407</td>
+      <td>481</td>
+      <td>0.619281</td>
+      <td>0.931204</td>
+      <td>1.384615</td>
+      <td>-9.846154</td>
+      <td>12.615385</td>
+      <td>4.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3739</th>
+      <td>1699</td>
+      <td>1739</td>
+      <td>847</td>
+      <td>250</td>
+      <td>597</td>
+      <td>93</td>
+      <td>381</td>
+      <td>179</td>
+      <td>393</td>
+      <td>476</td>
+      <td>0.599057</td>
+      <td>0.969466</td>
+      <td>-1.538462</td>
+      <td>-10.933333</td>
+      <td>11.272727</td>
+      <td>5.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3740</th>
+      <td>1831</td>
+      <td>1902</td>
+      <td>967</td>
+      <td>293</td>
+      <td>674</td>
+      <td>78</td>
+      <td>372</td>
+      <td>175</td>
+      <td>390</td>
+      <td>486</td>
+      <td>0.570552</td>
+      <td>0.953846</td>
+      <td>-2.629630</td>
+      <td>-11.625000</td>
+      <td>10.454545</td>
+      <td>6.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3741</th>
+      <td>1939</td>
+      <td>1981</td>
+      <td>1032</td>
+      <td>307</td>
+      <td>725</td>
+      <td>89</td>
+      <td>430</td>
+      <td>202</td>
+      <td>505</td>
+      <td>539</td>
+      <td>0.622287</td>
+      <td>0.851485</td>
+      <td>-1.448276</td>
+      <td>-13.500000</td>
+      <td>9.800000</td>
+      <td>7.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3742</th>
+      <td>1742</td>
+      <td>1736</td>
+      <td>846</td>
+      <td>261</td>
+      <td>585</td>
+      <td>71</td>
+      <td>353</td>
+      <td>184</td>
+      <td>384</td>
+      <td>483</td>
+      <td>0.586379</td>
+      <td>0.919271</td>
+      <td>0.230769</td>
+      <td>-10.307692</td>
+      <td>10.769231</td>
+      <td>8.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3743</th>
+      <td>1826</td>
+      <td>1898</td>
+      <td>858</td>
+      <td>269</td>
+      <td>589</td>
+      <td>94</td>
+      <td>361</td>
+      <td>220</td>
+      <td>404</td>
+      <td>534</td>
+      <td>0.561431</td>
+      <td>0.893564</td>
+      <td>-2.666667</td>
+      <td>-14.133333</td>
+      <td>11.666667</td>
+      <td>9.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3744</th>
+      <td>1686</td>
+      <td>1721</td>
+      <td>891</td>
+      <td>274</td>
+      <td>617</td>
+      <td>82</td>
+      <td>344</td>
+      <td>179</td>
+      <td>421</td>
+      <td>510</td>
+      <td>0.564860</td>
+      <td>0.817102</td>
+      <td>-1.296296</td>
+      <td>-11.066667</td>
+      <td>10.916667</td>
+      <td>10.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3745</th>
+      <td>1975</td>
+      <td>2086</td>
+      <td>1039</td>
+      <td>346</td>
+      <td>693</td>
+      <td>120</td>
+      <td>363</td>
+      <td>203</td>
+      <td>426</td>
+      <td>551</td>
+      <td>0.537778</td>
+      <td>0.852113</td>
+      <td>-3.700000</td>
+      <td>-13.105263</td>
+      <td>12.545455</td>
+      <td>11.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3746</th>
+      <td>1823</td>
+      <td>1828</td>
+      <td>924</td>
+      <td>240</td>
+      <td>684</td>
+      <td>122</td>
+      <td>335</td>
+      <td>125</td>
+      <td>371</td>
+      <td>506</td>
+      <td>0.536000</td>
+      <td>0.902965</td>
+      <td>-0.185185</td>
+      <td>-8.384615</td>
+      <td>7.428571</td>
+      <td>12.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3747</th>
+      <td>1733</td>
+      <td>1687</td>
+      <td>939</td>
+      <td>290</td>
+      <td>649</td>
+      <td>95</td>
+      <td>324</td>
+      <td>134</td>
+      <td>370</td>
+      <td>468</td>
+      <td>0.556701</td>
+      <td>0.875676</td>
+      <td>1.769231</td>
+      <td>-12.444444</td>
+      <td>9.294118</td>
+      <td>13.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3748</th>
+      <td>1863</td>
+      <td>1954</td>
+      <td>978</td>
+      <td>345</td>
+      <td>633</td>
+      <td>84</td>
+      <td>348</td>
+      <td>179</td>
+      <td>414</td>
+      <td>549</td>
+      <td>0.564019</td>
+      <td>0.840580</td>
+      <td>-3.137931</td>
+      <td>-11.176471</td>
+      <td>8.250000</td>
+      <td>14.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3749</th>
+      <td>1656</td>
+      <td>1872</td>
+      <td>941</td>
+      <td>357</td>
+      <td>584</td>
+      <td>78</td>
+      <td>326</td>
+      <td>165</td>
+      <td>437</td>
+      <td>595</td>
+      <td>0.552542</td>
+      <td>0.745995</td>
+      <td>-8.000000</td>
+      <td>-12.700000</td>
+      <td>5.428571</td>
+      <td>4.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3750</th>
+      <td>1770</td>
+      <td>1960</td>
+      <td>879</td>
+      <td>309</td>
+      <td>570</td>
+      <td>71</td>
+      <td>346</td>
+      <td>197</td>
+      <td>441</td>
+      <td>588</td>
+      <td>0.559871</td>
+      <td>0.784580</td>
+      <td>-7.037037</td>
+      <td>-11.600000</td>
+      <td>6.000000</td>
+      <td>5.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3751</th>
+      <td>1533</td>
+      <td>1889</td>
+      <td>798</td>
+      <td>273</td>
+      <td>525</td>
+      <td>104</td>
+      <td>259</td>
+      <td>136</td>
+      <td>405</td>
+      <td>472</td>
+      <td>0.483209</td>
+      <td>0.639506</td>
+      <td>-13.692308</td>
+      <td>-16.608696</td>
+      <td>8.666667</td>
+      <td>6.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3752</th>
+      <td>1813</td>
+      <td>1955</td>
+      <td>904</td>
+      <td>323</td>
+      <td>581</td>
+      <td>73</td>
+      <td>346</td>
+      <td>163</td>
+      <td>353</td>
+      <td>477</td>
+      <td>0.528244</td>
+      <td>0.980170</td>
+      <td>-5.259259</td>
+      <td>-10.000000</td>
+      <td>11.333333</td>
+      <td>1.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3753</th>
+      <td>1882</td>
+      <td>2006</td>
+      <td>1029</td>
+      <td>341</td>
+      <td>688</td>
+      <td>84</td>
+      <td>339</td>
+      <td>144</td>
+      <td>395</td>
+      <td>478</td>
+      <td>0.508246</td>
+      <td>0.858228</td>
+      <td>-4.275862</td>
+      <td>-14.235294</td>
+      <td>9.833333</td>
+      <td>2.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3754</th>
+      <td>1772</td>
+      <td>1982</td>
+      <td>883</td>
+      <td>249</td>
+      <td>634</td>
+      <td>81</td>
+      <td>351</td>
+      <td>184</td>
+      <td>409</td>
+      <td>523</td>
+      <td>0.545031</td>
+      <td>0.858191</td>
+      <td>-7.500000</td>
+      <td>-12.095238</td>
+      <td>6.285714</td>
+      <td>3.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3755</th>
+      <td>1804</td>
+      <td>1948</td>
+      <td>971</td>
+      <td>344</td>
+      <td>627</td>
+      <td>98</td>
+      <td>353</td>
+      <td>139</td>
+      <td>380</td>
+      <td>551</td>
+      <td>0.555031</td>
+      <td>0.928947</td>
+      <td>-5.142857</td>
+      <td>-10.105263</td>
+      <td>5.333333</td>
+      <td>4.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3756</th>
+      <td>1833</td>
+      <td>2004</td>
+      <td>885</td>
+      <td>302</td>
+      <td>583</td>
+      <td>101</td>
+      <td>349</td>
+      <td>161</td>
+      <td>382</td>
+      <td>578</td>
+      <td>0.550473</td>
+      <td>0.913613</td>
+      <td>-6.107143</td>
+      <td>-10.500000</td>
+      <td>10.000000</td>
+      <td>5.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3757</th>
+      <td>1908</td>
+      <td>2113</td>
+      <td>920</td>
+      <td>286</td>
+      <td>634</td>
+      <td>135</td>
+      <td>412</td>
+      <td>174</td>
+      <td>340</td>
+      <td>565</td>
+      <td>0.595376</td>
+      <td>1.211765</td>
+      <td>-7.321429</td>
+      <td>-12.571429</td>
+      <td>8.428571</td>
+      <td>6.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3758</th>
+      <td>1946</td>
+      <td>1950</td>
+      <td>926</td>
+      <td>275</td>
+      <td>651</td>
+      <td>154</td>
+      <td>368</td>
+      <td>182</td>
+      <td>330</td>
+      <td>480</td>
+      <td>0.533333</td>
+      <td>1.115152</td>
+      <td>-0.137931</td>
+      <td>-9.933333</td>
+      <td>10.357143</td>
+      <td>7.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3759</th>
+      <td>1988</td>
+      <td>2039</td>
+      <td>986</td>
+      <td>273</td>
+      <td>713</td>
+      <td>154</td>
+      <td>383</td>
+      <td>184</td>
+      <td>340</td>
+      <td>514</td>
+      <td>0.552670</td>
+      <td>1.126471</td>
+      <td>-1.758621</td>
+      <td>-11.733333</td>
+      <td>8.928571</td>
+      <td>8.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>3760 rows × 18 columns</p>
+</div>
+
+
+
+
+```python
+scaler = MinMaxScaler()
+minmax_scale = scaler.fit(final_table_copy)
+df_minmax = minmax_scale.transform(final_table_copy)
+```
+
+
+```python
+test_out = pd.DataFrame(df_minmax)
+```
+
+
+```python
+test_out.columns = ['total_score', 'total_opponent_score', 'total_rebounds',
+       'total_off_rebounds', 'total_def_rebounds', 'total_blocks',
+       'total_assists', 'total_steals', 'total_turnover',
+       'total_personalfoul', 'total_assist_per_fgm',
+       'total_assist_turnover_ratio', 'expectation_per_game',
+       'avg_lose_score_by', 'avg_win_score_by', 'num_season', 'is_playoff',
+       'is_champion']
+```
+
+
+```python
+pd.DataFrame(final_table_copy.dtypes).index.values
+```
+
+
+
+
+    array(['total_score', 'total_opponent_score', 'total_rebounds',
+           'total_off_rebounds', 'total_def_rebounds', 'total_blocks',
+           'total_assists', 'total_steals', 'total_turnover',
+           'total_personalfoul', 'total_assist_per_fgm',
+           'total_assist_turnover_ratio', 'expectation_per_game',
+           'avg_lose_score_by', 'avg_win_score_by', 'num_season', 'is_playoff',
+           'is_champion'], dtype=object)
+
+
+
+
+```python
+test_out.columns = pd.DataFrame(final_table_copy.dtypes).index.values
+```
+
+
+```python
+from aggregate_function import combine_features_table
+```
+
+
+```python
+combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    AttributeError                            Traceback (most recent call last)
+
+    <ipython-input-80-078825b42353> in <module>()
+    ----> 1 combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
+    
+
+    ~/Desktop/Projects/kaggle-ncaa-madness-men/aggregate_function/combine_features_table.py in __init__(self, initial_features_table, win_rate_type_location_table, coach_stats_table)
+         16         self.combine_feature_cumulative_table()
+         17         self.min_max_standardization()
+    ---> 18         self.final_input_training_data()
+         19 
+         20     def combine_feature_table(self):
+
+
+    ~/Desktop/Projects/kaggle-ncaa-madness-men/aggregate_function/combine_features_table.py in final_input_training_data(self)
+        100         self.final_table_cum_processed = (
+        101             self.df_minmax_cum
+    --> 102             .assign(Season = self.final_table_cumulative_min_max.Season.values)
+        103             .assign(TeamID = self.final_table_cumulative_min_max.TeamID.values)
+        104             # .assign(CoachName = self.final_table_cumulative_min_max.CoachName.values)
+
+
+    ~/anaconda3/lib/python3.6/site-packages/pandas/core/generic.py in __getattr__(self, name)
+       3079             if name in self._info_axis:
+       3080                 return self[name]
+    -> 3081             return object.__getattribute__(self, name)
+       3082 
+       3083     def __setattr__(self, name, value):
+
+
+    AttributeError: 'DataFrame' object has no attribute 'Season'
 
