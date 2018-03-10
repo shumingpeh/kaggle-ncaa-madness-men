@@ -122,6 +122,7 @@ combine_winning_losing_stats_for_year = (
 
 
 combine_winning_losing_stats_for_year.head()
+combine_winning_losing_stats_for_year.dtypes
 
 
 
@@ -152,6 +153,11 @@ cumulative_stats_for_team_each_year = (
 cumulative_stats_for_team_each_year.head()
 
 
+
+
+cumulative_stats_for_team_each_year.dtypes
+
+
 # ## Some variations to try for features
 # - separate winning and losing
 #     - reconcilation of winning and losing will have to be done later
@@ -164,9 +170,9 @@ cumulative_stats_for_team_each_year.head()
 #     - number of playoffs made till that season
 #     - win rate of total games till that season
 #         - consider regular or playoff only?
-# - win rate for home court
-# - win rate for away court
-# - win rate for neutral court
+# - ~~win rate for home court~~
+# - ~~win rate for away court~~
+# - ~~win rate for neutral court~~
 # - offensive stats
 #     - offensive rebounds
 #     - points scored
@@ -191,29 +197,140 @@ cumulative_stats_for_team_each_year.head()
 
 
 
-test_df['prediction_results'] = test_results.prediction_result.values
+#win rate for home court
+#need to ensure that the joining is from a bigger table
+raw_data_regularseason.head()
 
 
 
 
-test_df.tail(20)
+win_test = (
+    raw_data_regularseason
+    .groupby(['Season','WTeamID','WLoc'])
+    .count()
+    .reset_index()
+    [['Season','WTeamID','WLoc','DayNum']]
+)
 
 
 
 
-metrics.confusion_matrix(test_df.yhat,test_df.prediction_results)
+lose_test = (
+    raw_data_regularseason
+    .groupby(['Season','LTeamID','WLoc'])
+    .count()
+    .reset_index()
+    [['Season','LTeamID','WLoc','DayNum']]
+)
 
 
-# http://blog.yhat.com/posts/roc-curves.html
 
 
-
-pd.read_csv("data/DataFiles/RegularSeasonDetailedResults.csv").head()
+win_test.head()
 
 
 
 
-pd.read_csv("data/DataFiles/RegularSeasonCompactResults.csv").head()
+lose_test.head()
+
+
+
+
+test = (
+    lose_test
+    .drop(['DayNum'],1)
+    .append(win_test.rename(columns={"WTeamID":"LTeamID"}).drop(['DayNum'],1))
+    .groupby(['Season','LTeamID','WLoc'])
+    .count()
+    .reset_index()
+)
+
+win_rate_type_of_court = (
+    test
+    .merge(win_test,how='left',left_on=['Season','LTeamID','WLoc'], right_on=['Season','WTeamID','WLoc'])
+    .merge(lose_test,how='left',left_on=['Season','LTeamID','WLoc'],right_on=['Season','LTeamID','WLoc'])
+    .fillna(0)
+    .rename(columns={"LTeamID":"TeamID","DayNum_x":"games_won","DayNum_y":"games_lost"})
+    .drop(['WTeamID'],1)
+    .pipe(lambda x:x.assign(win_rate = x.games_won/(x.games_won + x.games_lost)))
+)
+
+
+win_rate_type_of_court.head()
+
+
+
+
+win_rate_away = (
+    win_rate_type_of_court
+    .query("WLoc == 'A'")
+    .rename(columns={"win_rate":"win_rate_away"})
+    [['Season','TeamID','win_rate_away']]
+)
+
+win_rate_neutral = (
+    win_rate_type_of_court
+    .query("WLoc == 'N'")
+    .rename(columns={"win_rate":"win_rate_neutral"})
+    [['Season','TeamID','win_rate_neutral']]
+)
+
+win_rate_home = (
+    win_rate_type_of_court
+    .query("WLoc == 'H'")
+    .rename(columns={"win_rate":"win_rate_home"})
+    [['Season','TeamID','win_rate_home']]
+)
+
+more_testing = win_rate_type_of_court.sort_values(['TeamID','Season']).query("WLoc=='A'").head().groupby(['TeamID']).cumsum()
+
+whatever = win_rate_away.sort_values(['TeamID','Season']).head()
+
+more_testing.pipe(lambda x:x.assign(TeamID = whatever.TeamID.values))
+
+
+
+
+# combine back with cumulative table
+cumulative_stats_for_team_each_year.head()
+
+
+
+
+intermediate_combine_stats_for_team_each_year = (
+    cumulative_stats_for_team_each_year
+    .merge(win_rate_away,how='left',on=['Season','TeamID'])
+    .merge(win_rate_home,how='left',on=['Season','TeamID'])
+    .merge(win_rate_neutral,how='left',on=['Season','TeamID'])
+)
+
+intermediate_combine_stats_for_team_each_year.head()
+
+
+# ## offensive stats
+
+
+
+# scored 
+# offensive rebounds
+# percentage of offensive rebounds to total rebounds
+# offensive rebounding percentage, field goal missed
+# defensive rebounds
+
+
+
+
+# block % from opponent field goal attempted
+# assist / turnover ratio
+# assist per fgm
+
+# win by how many points
+# lose by how many points
+
+
+
+
+# normalization on variables
 
 
 # ## Features selected
@@ -239,5 +356,25 @@ pd.read_csv("data/DataFiles/RegularSeasonCompactResults.csv").head()
 
 
 
-pd.read_csv("data/DataFiles/RegularSeasonDetailedResults.csv").dtypes
+pd.read_csv("data/DataFiles/TeamCoaches.csv").head()
+
+
+
+
+pd.read_csv("data/DataFiles/Teams.csv")
+
+
+
+
+pd.read_csv("data/DataFiles/RegularSeasonCompactResults.csv").head()
+
+
+
+
+pd.read_csv("data/DataFiles/NCAATourneyCompactResults.csv").query("DayNum==154")
+
+
+
+
+
 
