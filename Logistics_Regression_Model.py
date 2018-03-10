@@ -4,6 +4,7 @@
 # ___
 # This notebook tries to do a simple prediction of which team will win in a random match based on seeding
 
+# In[51]:
 
 
 import pandas as pd
@@ -14,6 +15,7 @@ from sklearn import *
 
 # ## Read data
 
+# In[36]:
 
 
 raw_data = pd.read_csv("input/tour-results-seed.csv")
@@ -23,6 +25,7 @@ raw_data = pd.read_csv("input/tour-results-seed.csv")
 # - Differential in seeding
 # - winning results
 
+# In[40]:
 
 
 winning_team_perspective_df = (
@@ -32,6 +35,7 @@ winning_team_perspective_df = (
 )
 
 
+# In[41]:
 
 
 losing_team_perspective_df = (
@@ -41,6 +45,7 @@ losing_team_perspective_df = (
 )
 
 
+# In[99]:
 
 
 prediction_df = (
@@ -52,12 +57,14 @@ prediction_df = (
 # - train data: <= 2013 Season
 # - test data: >= 2014 Season
 
+# In[48]:
 
 
 train_df = prediction_df.query("Season <= 2013")
 test_df = prediction_df.query("Season >= 2014")
 
 
+# In[82]:
 
 
 train_data_x = train_df[['diff_seed']]
@@ -69,11 +76,13 @@ test_data_y = test_df['yhat']
 
 # ## Initializing Logistics Regression
 
+# In[83]:
 
 
 logreg = linear_model.LogisticRegression()
 
 
+# In[84]:
 
 
 logreg.fit(train_data_x,train_data_y)
@@ -83,16 +92,19 @@ logreg.fit(train_data_x,train_data_y)
 # - 0.71 accurate
 # - include confusion matrix
 
+# In[103]:
 
 
 logreg.score(test_data_x,test_data_y)
 
 
+# In[87]:
 
 
 logreg.score(test_data_x,test_data_y)
 
 
+# In[106]:
 
 
 metrics.confusion_matrix(test_df.yhat,test_df.prediction_results)
@@ -100,16 +112,19 @@ metrics.confusion_matrix(test_df.yhat,test_df.prediction_results)
 
 # ## Joining prediction to actual dataframe
 
+# In[ ]:
 
 
 test_results = pd.DataFrame(logreg.predict(test_df[['diff_seed']])).rename(columns={0:"prediction_result"})
 
 
+# In[93]:
 
 
 test_df['prediction_results'] = test_results.prediction_result.values
 
 
+# In[96]:
 
 
 test_df.tail(20)
