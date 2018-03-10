@@ -5,10 +5,9 @@ import numpy as np
 
 class WinRateTypeLocation():
     """Getting all the initial features required for the training data"""
-    def __init__(self, cumulative_processed, regularseason_data_file):
+    def __init__(self, regularseason_data_file):
         super(WinRateTypeLocation, self).__init__()
         self.regularseason_data_file = regularseason_data_file
-        self.cumulative_processed = cumulative_processed
         self.df = pd.read_csv(self.regularseason_data_file)
 
         self.games_won()
@@ -102,6 +101,7 @@ class WinRateTypeLocation():
             .cumsum()
             .pipe(lambda x:x.assign(Season = self.win_rate_away_df.Season.values))
             .pipe(lambda x:x.assign(TeamID = self.win_rate_away_df.TeamID.values))
+            .pipe(lambda x:x.assign(win_rate_away = x.games_won/(x.games_won+x.games_lost)))
         )
 
     def win_rate_cum_home(self):
@@ -112,8 +112,9 @@ class WinRateTypeLocation():
             .query("WLoc == 'H'")
             .groupby(['TeamID'])
             .cumsum()
-            .pipe(lambda x:x.assign(Season = self.win_rate_away_df.Season.values))
-            .pipe(lambda x:x.assign(TeamID = self.win_rate_away_df.TeamID.values))
+            .pipe(lambda x:x.assign(Season = self.win_rate_home_df.Season.values))
+            .pipe(lambda x:x.assign(TeamID = self.win_rate_home_df.TeamID.values))
+            .pipe(lambda x:x.assign(win_rate_home = x.games_won/(x.games_won+x.games_lost)))
         )
 
     def win_rate_cum_neutral(self):
@@ -124,6 +125,7 @@ class WinRateTypeLocation():
             .query("WLoc == 'N'")
             .groupby(['TeamID'])
             .cumsum()
-            .pipe(lambda x:x.assign(Season = self.win_rate_away_df.Season.values))
-            .pipe(lambda x:x.assign(TeamID = self.win_rate_away_df.TeamID.values))
+            .pipe(lambda x:x.assign(Season = self.win_rate_neutral_df.Season.values))
+            .pipe(lambda x:x.assign(TeamID = self.win_rate_neutral_df.TeamID.values))
+            .pipe(lambda x:x.assign(win_rate_neutral = x.games_won/(x.games_won+x.games_lost)))
         )
