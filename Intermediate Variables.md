@@ -6665,41 +6665,5 @@ from aggregate_function import combine_features_table
 
 
 ```python
-combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
+testing_final_output = combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    AttributeError                            Traceback (most recent call last)
-
-    <ipython-input-80-078825b42353> in <module>()
-    ----> 1 combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
-    
-
-    ~/Desktop/Projects/kaggle-ncaa-madness-men/aggregate_function/combine_features_table.py in __init__(self, initial_features_table, win_rate_type_location_table, coach_stats_table)
-         16         self.combine_feature_cumulative_table()
-         17         self.min_max_standardization()
-    ---> 18         self.final_input_training_data()
-         19 
-         20     def combine_feature_table(self):
-
-
-    ~/Desktop/Projects/kaggle-ncaa-madness-men/aggregate_function/combine_features_table.py in final_input_training_data(self)
-        100         self.final_table_cum_processed = (
-        101             self.df_minmax_cum
-    --> 102             .assign(Season = self.final_table_cumulative_min_max.Season.values)
-        103             .assign(TeamID = self.final_table_cumulative_min_max.TeamID.values)
-        104             # .assign(CoachName = self.final_table_cumulative_min_max.CoachName.values)
-
-
-    ~/anaconda3/lib/python3.6/site-packages/pandas/core/generic.py in __getattr__(self, name)
-       3079             if name in self._info_axis:
-       3080                 return self[name]
-    -> 3081             return object.__getattribute__(self, name)
-       3082 
-       3083     def __setattr__(self, name, value):
-
-
-    AttributeError: 'DataFrame' object has no attribute 'Season'
-

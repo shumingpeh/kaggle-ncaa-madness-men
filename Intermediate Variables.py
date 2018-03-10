@@ -878,5 +878,5 @@ from aggregate_function import combine_features_table
 
 
 
-combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
+testing_final_output = combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
 
