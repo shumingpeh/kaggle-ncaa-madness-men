@@ -19,14 +19,20 @@
 # (A rather naive assumption but suitable for making a baseline)
 # 
 
-# In[107]:
+# In[64]:
 
 
 import numpy as np
 import pandas as pd
 
 
-# In[108]:
+# In[65]:
+
+
+get_ipython().magic(u'qtconsole')
+
+
+# In[2]:
 
 
 # 1. Recreate the same winning % table as my reference
@@ -34,22 +40,13 @@ import pandas as pd
 # 1a. Get tourney results and add which round these wins occured
 
 
-# In[109]:
+# In[3]:
 
 
 raw = pd.read_csv('data/DataFiles/NCAATourneyCompactResults.csv')
 
 
-# In[110]:
-
-
-# It seems the no. of games is uneven in different years
-
-for i in range(1985,2018):
-    print len((raw.query("Season == {}".format(i))))
-
-
-# In[111]:
+# In[4]:
 
 
 # What the Brackets should look like
@@ -63,7 +60,7 @@ for i in range(1985,2018):
 # Total = 63 matches
 
 
-# In[112]:
+# In[5]:
 
 
 # If we were to select 1 year, the df is already sorted by DayNum
@@ -71,7 +68,7 @@ for i in range(1985,2018):
 # Working backwards
 
 
-# In[113]:
+# In[6]:
 
 
 def add_round_to_df(df):
@@ -122,7 +119,7 @@ def add_round_to_df(df):
     return df1
 
 
-# In[114]:
+# In[7]:
 
 
 # Applying add_round_to_df to raw DF
@@ -135,33 +132,33 @@ for i in range(1985,2018):
 df.head()
 
 
-# In[115]:
+# In[8]:
 
 
 seedings = pd.read_csv('data/DataFiles/NCAATourneySeeds.csv')
 
 
-# In[116]:
+# In[9]:
 
 
 seedings.head()
 
 
-# In[117]:
+# In[10]:
 
 
 def parse_region(string1):
     return string1[0]
 
 
-# In[118]:
+# In[11]:
 
 
 def parse_seeding(string1):
     return int(string1[1:3])
 
 
-# In[122]:
+# In[12]:
 
 
 # Merge df and seedings
@@ -180,13 +177,13 @@ df=(
 )
 
 
-# In[123]:
+# In[13]:
 
 
 df.head()
 
 
-# In[ ]:
+# In[14]:
 
 
 """
@@ -200,7 +197,7 @@ to estimate their success rates in round 2.
 """
 
 
-# In[133]:
+# In[15]:
 
 
 
@@ -211,13 +208,7 @@ len(df
 )
 
 
-# In[137]:
-
-
-109/(2013-1985+1.0)
-
-
-# In[142]:
+# In[17]:
 
 
 len(df
@@ -227,19 +218,19 @@ len(df
 )/(2013-1985+1.0)
 
 
-# In[ ]:
+# In[18]:
 
 
 # It Works!
 
 
-# In[143]:
+# In[19]:
 
 
 # Function to build Matrix 1 - Winning Rate Table based on seeds and rounds
 
 
-# In[174]:
+# In[20]:
 
 
 seeds = range(1,17) # 1 to 16
@@ -247,7 +238,7 @@ rounds = range(2,8) # 2 to 7
 wr = np.zeros((len(seeds),len(rounds)))
 
 
-# In[177]:
+# In[22]:
 
 
 years = 2013-1985+1.0
@@ -261,43 +252,216 @@ for s in seeds:
         
 
 
-# In[178]:
+# In[23]:
 
 
 wr
 
 
-# In[180]:
-
-
-# To get the winning rate of seed 7 in Round 3
-wr[7-1,3-2]
-
-
-# In[181]:
+# In[25]:
 
 
 def get_wr(seed,rd):
     return wr[seed-1,rd-2]
 
 
-# In[186]:
+# In[28]:
+
+
+# To get the winning rate of seed 7 in Round 3
+get_wr(7,3)
+
+
+# In[154]:
 
 
 def prob(wseed,lseed,rd):
-    return get_wr(wseed,rd)/(get_wr(wseed,rd)+get_wr(lseed,rd))
+    num=get_wr(wseed,rd)
+    den=(get_wr(wseed,rd)+get_wr(lseed,rd))
+    if den==0 or num==0:
+        return 0.5
+    else:
+        return num/den
 
 
-# In[188]:
+# In[30]:
 
 
 # What is the probability that 8th seed wins 9th seed in round 2
 prob(8,9,2)
 
 
-# In[189]:
+# In[31]:
 
 
 # What is the probability that 1st seed wins 9th seed in round 3
 prob(1,9,3)
+
+
+# In[138]:
+
+
+# Load default submissions
+
+
+# In[155]:
+
+
+sub=pd.read_csv('data/SampleSubmissionStage1.csv')
+
+
+# In[140]:
+
+
+sub.head()
+
+
+# In[141]:
+
+
+# Break up submission file into yr, id1, id2, pred
+
+
+# In[142]:
+
+
+def parse_yr(string1):
+    a,b,c=string1.split('_')
+    return int(a)
+
+
+# In[143]:
+
+
+def parse_id1(string1):
+    a,b,c=string1.split('_')
+    return int(b)
+
+
+# In[144]:
+
+
+def parse_id2(string1):
+    a,b,c=string1.split('_')
+    return int(c)
+
+
+# In[156]:
+
+
+sub=(sub
+ .pipe(lambda x:x.assign(year=x.ID.apply(parse_yr)))
+ .pipe(lambda x:x.assign(wid=x.ID.apply(parse_id1)))
+ .pipe(lambda x:x.assign(lid=x.ID.apply(parse_id2)))
+)
+
+
+# In[157]:
+
+
+# For id1, id2 - get seeding
+
+
+# In[158]:
+
+
+sub=(sub
+ .merge(seedings,how='left',left_on=['year','wid'],right_on=['Season','TeamID'])
+ .rename(columns={'Seed':'Wseed'})
+ .pipe(lambda x:x.assign(Wseed=x.Wseed.apply(parse_seeding)))
+ .merge(seedings,how='left',left_on=['year','lid'],right_on=['Season','TeamID'])
+ .rename(columns={'Seed':'Lseed'})
+ .pipe(lambda x:x.assign(Lseed=x.Lseed.apply(parse_seeding)))
+ [['ID','Wseed','Lseed']]
+)
+sub.head() # seeds can have repetition if teams are from different regions
+
+
+# In[45]:
+
+
+# Calc new prob, replace Pred
+
+
+# In[97]:
+
+
+import itertools
+
+
+# In[112]:
+
+
+# What are all the bracket combinations?
+# Key = round
+# Values = tuples of id1,id2 matchups
+brackets = {
+    2 : [(1,16),(2,15),(3,14),(4,13),(5,12),(6,11),(7,10),(8,9)],
+    3 : list(itertools.product((1,16),(8,9)))\
+        +list(itertools.product((5,12),(4,13)))\
+        +list(itertools.product((6,11),(3,14)))\
+        +list(itertools.product((7,10),(2,15))),
+    4 : list(itertools.product((1,8,9,16),(4,5,12,13)))\
+        +list(itertools.product((6,11,3,14),(7,10,2,15)))
+}
+
+
+# In[113]:
+
+
+def get_round(wseed,lseed):
+    for k,v in brackets.items():
+        if (wseed,lseed) in v:
+            return k
+        elif (lseed,wseed) in v:
+            return k
+    return 0
+
+
+# In[115]:
+
+
+get_round(1,9)
+
+
+# In[ ]:
+
+
+# Recompile a new submission file
+
+
+# In[159]:
+
+
+predictions=[]
+for i,row in sub.iterrows():
+    wseed=row[1]
+    lseed=row[2]
+    rd=get_round(wseed,lseed) #Wseed,Lseed
+    if rd ==0:
+        predictions.append(0.5)
+    else:
+        predictions.append(prob(wseed,lseed,rd))
+
+
+# In[160]:
+
+
+sub['Pred']=predictions
+
+
+# In[161]:
+
+
+final_submission = (
+    sub.drop(columns=['Wseed','Lseed'])
+)
+
+
+# In[166]:
+
+
+import datetime
+timestamp=datetime.datetime.now().strftime('%Y-%m-%d')
+final_submission.to_csv('output/baseline-{}.csv'.format(timestamp),index=False)
 
