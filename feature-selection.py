@@ -14,6 +14,10 @@ from sklearn import *
 from scipy import *
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.decomposition import PCA
+from sklearn.feature_selection import RFE, SelectFromModel
+from sklearn.linear_model import LogisticRegression, LassoCV
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier, ExtraTreesClassifier
+from sklearn.grid_search import GridSearchCV
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -122,8 +126,8 @@ vif
 
 
 # ## Feature selection from PCA explained variance
-# - use PCA to see how much variance does the feature account for, selecting up to 98% variance would be good enough
-# - 12 features are enough for variance
+# - use PCA to see how much variance does the feature account for, selecting up to 99% variance would be good enough
+# - 15 features are enough for variance
 #     - this doesnt tell us which features to discard but in the model selection of feature importance
 #     - we can tell the model to choose up to 12 features max
 
@@ -138,4 +142,153 @@ var=np.cumsum(np.round(covar_matrix.explained_variance_ratio_, decimals=3)*100)
 var #cumulative sum of variance explained with [n] features
 
 
-# ## 
+# ## Final data transformation for feature table
+# - post season is only what we care about
+# - post season match ups will be what we are joining all the features table to
+# - additional variable of seeding differential
+
+
+
+features_table = (
+    features.final_table_processed
+    .drop(['total_score','total_rebounds','total_blocks','total_assist_turnover_ratio','expectation_per_game',
+           'win_rate','total_rebound_possession_percent','win_rate_overall','total_off_rebounds_percent','total_def_rebounds_percent',
+           'total_opponent_score','total_rebound_possessiongain_percent','fg3p'
+          ],1)
+    .fillna(0)
+)
+
+
+
+
+seeding_data = pd.read_csv("input/tour-results-seed.csv")
+
+
+
+
+winning_team_perspective_df = (
+    seeding_data
+    .pipe(lambda x:x.assign(diff_seed = x.L_seed - x.W_seed))
+    .pipe(lambda x:x.assign(outcome = 1))
+    .merge(features_table,how='left',left_on=['Season','WTeamID'],right_on=['Season','TeamID'])
+)
+
+
+
+
+losing_team_perspective_df = (
+    seeding_data
+    .pipe(lambda x:x.assign(diff_seed = x.W_seed - x.L_seed))
+    .pipe(lambda x:x.assign(outcome = 0))
+    .merge(features_table,how='left',left_on=['Season','LTeamID'],right_on=['Season','TeamID'])
+)
+
+
+
+
+prediction_df = (
+    winning_team_perspective_df.append(losing_team_perspective_df)
+)
+
+
+
+
+train_df = prediction_df.query("Season >= 2003 & Season <= 2013")
+test_df = prediction_df.query("Season == 2014")
+
+
+
+
+train_df.head()
+
+
+# ## Feature selection of logistics regression
+# - RFE
+# - SelectFromModel
+
+
+
+## RFE
+train_data_x = train_df[['diff_seed','total_off_rebounds','total_def_rebounds','total_assists',
+                         'total_steals','total_turnover','total_personalfoul','total_assist_per_fgm',
+                         'avg_lose_score_by','avg_win_score_by','num_season','is_playoff','is_champion',
+                         'fgp','total_block_opp_FGA_percent','win_rate_away','win_rate_home','win_rate_neutral',
+                         'win_rate_post','win_rate_regular']]
+train_data_y = train_df['outcome']
+# feature extraction
+model = LogisticRegression()
+rfe = RFE(model, 13)
+fit = rfe.fit(train_data_x, train_data_y)
+print("Num Features: "+ str(fit.n_features_))
+print("Selected Features: " + str(fit.support_))
+print("Feature Ranking: " + str(fit.ranking_))
+
+
+
+
+test_data_x = test_df[['diff_seed','total_off_rebounds','total_def_rebounds','total_assists',
+                         'total_steals','total_turnover','total_personalfoul','total_assist_per_fgm',
+                         'avg_lose_score_by','avg_win_score_by','num_season','is_playoff','is_champion',
+                         'fgp','total_block_opp_FGA_percent','win_rate_away','win_rate_home','win_rate_neutral',
+                         'win_rate_post','win_rate_regular']]
+test_data_y = test_df['outcome']
+
+
+
+
+rfe.score(test_data_x,test_data_y)
+
+
+
+
+new_train_data_x = train_df[['total_off_rebounds',
+                           'total_turnover','total_personalfoul','total_assist_per_fgm',
+                           'avg_win_score_by','is_playoff','is_champion',
+                           'fgp','win_rate_away','win_rate_home','win_rate_neutral',
+                           'win_rate_post','win_rate_regular']]
+
+new_test_data_x = test_df[['total_off_rebounds',
+                           'total_turnover','total_personalfoul','total_assist_per_fgm',
+                           'avg_win_score_by','is_playoff','is_champion',
+                           'fgp','win_rate_away','win_rate_home','win_rate_neutral',
+                           'win_rate_post','win_rate_regular']]
+
+
+## use features and run on RF
+rf = RandomForestClassifier(random_state=0)
+param_grid = {
+         'n_estimators': [5,10,50,100,150,200,500,1000],
+         'max_depth': [2,5,10]
+     }
+
+grid_rf = GridSearchCV(rf, param_grid, cv=5, verbose=2)
+grid_rf.fit(new_train_data_x, train_data_y)
+
+rf_model = grid_rf.best_estimator_
+model = rf_model
+
+model.score(new_test_data_x,test_data_y)
+
+
+
+
+# select from model
+clf = ExtraTreesClassifier()
+clf = clf.fit(train_data_x, train_data_y)
+clf.feature_importances_  
+
+
+
+
+(
+    pd.DataFrame(clf.feature_importances_)
+    .pipe(lambda x:x.assign(variable = train_data_x.columns))
+    .sort_values([0],ascending=False)
+    .pipe(lambda x:x.assign(cumsum_var = x[0].cumsum()))
+    .query("cumsum_var <= 0.95")
+    .variable
+    .values
+)
+
+
+# ## Feature selection of RF

@@ -19,10 +19,10 @@ class BuildFeaturesTable():
 
     def winning_games_stats(self):
         """Get winning games stats for each team"""
-        self.winning_games_up_to_2013 = (
+        self.winning_games = (
             self.df
             .pipe(lambda x:x.assign(winning_num_counts = 1))
-            .query("Season <= 2013")
+            .query("Season <= 2018")
             .groupby(['Season','WTeamID'])
             .agg({"WScore":"sum","WFGM":"sum","WFGA":"sum","WFGM3":"sum","WFGA3":"sum","WFTM":"sum","WFTA":"sum","LScore":"sum","winning_num_counts":"sum",
                   "WOR":"sum","WDR":"sum","LFGM":"sum","LFGA":"sum",
@@ -47,10 +47,10 @@ class BuildFeaturesTable():
 
     def losing_games_stats(self):
         """Get losing games stats for each team"""
-        self.losing_games_up_to_2013 = (
+        self.losing_games = (
             self.df
             .pipe(lambda x:x.assign(losing_num_counts=1))
-            .query("Season <= 2013")
+            .query("Season <= 2018")
             .groupby(['Season','LTeamID'])
             .agg({"WScore":"sum","LScore":"sum","LFGM":"sum","LFGA":"sum","LFGM3":"sum","LFGA3":"sum","LFTM":"sum","LFTA":"sum","losing_num_counts":"sum",
                   "LOR":"sum","LDR":"sum","WFGA":"sum","WFGM":"sum",
@@ -76,8 +76,8 @@ class BuildFeaturesTable():
     def combine_both_winning_losing_games_stats(self):
         """Combine winning and losing games for each team"""
         self.combine_both_winning_losing_games_stats = (
-            self.winning_games_up_to_2013
-            .merge(self.losing_games_up_to_2013, how='left',left_on=['Season','WTeamID'],right_on=['Season','LTeamID'])
+            self.winning_games
+            .merge(self.losing_games, how='left',left_on=['Season','WTeamID'],right_on=['Season','LTeamID'])
             # on field goal percentage and winning counts
             .pipe(lambda x:x.assign(total_score = x.WScore + x.LScore))
             .pipe(lambda x:x.assign(total_opponent_score = x.winning_opponent_score + x.losing_opponent_score))

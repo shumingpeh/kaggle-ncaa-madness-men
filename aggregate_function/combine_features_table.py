@@ -27,6 +27,7 @@ class CombineFeaturesTable():
                                                'is_playoff','is_champion','win_rate_post',
                                                'win_rate_regular','win_rate_overall','CoachName']],
                     how='left',on=['Season','TeamID'])
+            .fillna(0)
             .drop(['CoachName'],1)
         )
 
@@ -40,6 +41,7 @@ class CombineFeaturesTable():
                                                'is_playoff','is_champion','win_rate_post',
                                                'win_rate_regular','win_rate_overall','CoachName']],
                     how='left',on=['Season','TeamID'])
+            .fillna(0)
             .drop(['CoachName'],1)
         )
 
