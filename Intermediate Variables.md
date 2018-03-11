@@ -6667,3 +6667,357 @@ from aggregate_function import combine_features_table
 ```python
 testing_final_output = combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
 ```
+
+
+```python
+testing_final_output.final_table_processed.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_score</th>
+      <th>total_opponent_score</th>
+      <th>total_rebounds</th>
+      <th>total_off_rebounds</th>
+      <th>total_def_rebounds</th>
+      <th>total_blocks</th>
+      <th>total_assists</th>
+      <th>total_steals</th>
+      <th>total_turnover</th>
+      <th>total_personalfoul</th>
+      <th>...</th>
+      <th>total_def_rebounds_percent</th>
+      <th>total_rebound_possession_percent</th>
+      <th>total_rebound_possessiongain_percent</th>
+      <th>total_block_opp_FGA_percent</th>
+      <th>win_rate_away</th>
+      <th>win_rate_home</th>
+      <th>win_rate_neutral</th>
+      <th>win_rate_post</th>
+      <th>win_rate_regular</th>
+      <th>win_rate_overall</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.389896</td>
+      <td>0.364467</td>
+      <td>0.226230</td>
+      <td>0.045752</td>
+      <td>0.325670</td>
+      <td>0.110714</td>
+      <td>0.476744</td>
+      <td>0.310850</td>
+      <td>0.316348</td>
+      <td>0.573630</td>
+      <td>...</td>
+      <td>0.801020</td>
+      <td>0.202422</td>
+      <td>0.726852</td>
+      <td>0.042088</td>
+      <td>0.428571</td>
+      <td>0.473684</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.425302</td>
+      <td>0.271066</td>
+      <td>0.237705</td>
+      <td>0.165577</td>
+      <td>0.273308</td>
+      <td>0.167857</td>
+      <td>0.490310</td>
+      <td>0.460411</td>
+      <td>0.278132</td>
+      <td>0.472603</td>
+      <td>...</td>
+      <td>0.714286</td>
+      <td>0.282430</td>
+      <td>0.691318</td>
+      <td>0.058407</td>
+      <td>1.000000</td>
+      <td>0.722222</td>
+      <td>0.500000</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.464594</td>
+      <td>0.365990</td>
+      <td>0.291803</td>
+      <td>0.272331</td>
+      <td>0.295019</td>
+      <td>0.110714</td>
+      <td>0.538760</td>
+      <td>0.568915</td>
+      <td>0.256900</td>
+      <td>0.493151</td>
+      <td>...</td>
+      <td>0.669162</td>
+      <td>0.289646</td>
+      <td>0.740066</td>
+      <td>0.043066</td>
+      <td>0.800000</td>
+      <td>0.550000</td>
+      <td>0.500000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.465458</td>
+      <td>0.329949</td>
+      <td>0.308197</td>
+      <td>0.204793</td>
+      <td>0.360153</td>
+      <td>0.142857</td>
+      <td>0.540698</td>
+      <td>0.478006</td>
+      <td>0.286624</td>
+      <td>0.412671</td>
+      <td>...</td>
+      <td>0.723837</td>
+      <td>0.287009</td>
+      <td>0.683128</td>
+      <td>0.045986</td>
+      <td>1.000000</td>
+      <td>0.736842</td>
+      <td>0.666667</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.585060</td>
+      <td>0.420812</td>
+      <td>0.416393</td>
+      <td>0.213508</td>
+      <td>0.523627</td>
+      <td>0.089286</td>
+      <td>0.645349</td>
+      <td>0.372434</td>
+      <td>0.284501</td>
+      <td>0.453767</td>
+      <td>...</td>
+      <td>0.763415</td>
+      <td>0.267956</td>
+      <td>0.758788</td>
+      <td>0.030199</td>
+      <td>0.857143</td>
+      <td>0.722222</td>
+      <td>0.600000</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 34 columns</p>
+</div>
+
+
+
+
+```python
+testing_final_output.final_table_cum_processed.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_score</th>
+      <th>total_opponent_score</th>
+      <th>total_rebounds</th>
+      <th>total_off_rebounds</th>
+      <th>total_def_rebounds</th>
+      <th>total_blocks</th>
+      <th>total_assists</th>
+      <th>total_steals</th>
+      <th>total_turnover</th>
+      <th>total_personalfoul</th>
+      <th>...</th>
+      <th>total_def_rebounds_percent</th>
+      <th>total_rebound_possession_percent</th>
+      <th>total_rebound_possessiongain_percent</th>
+      <th>total_block_opp_FGA_percent</th>
+      <th>win_rate_away</th>
+      <th>win_rate_home</th>
+      <th>win_rate_neutral</th>
+      <th>win_rate_post</th>
+      <th>win_rate_regular</th>
+      <th>win_rate_overall</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.032316</td>
+      <td>0.029730</td>
+      <td>0.019573</td>
+      <td>0.004246</td>
+      <td>0.027669</td>
+      <td>0.011698</td>
+      <td>0.041456</td>
+      <td>0.035357</td>
+      <td>0.026703</td>
+      <td>0.048898</td>
+      <td>...</td>
+      <td>0.801020</td>
+      <td>0.202422</td>
+      <td>0.726852</td>
+      <td>0.042088</td>
+      <td>0.428571</td>
+      <td>0.473684</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.092617</td>
+      <td>0.088195</td>
+      <td>0.062265</td>
+      <td>0.039021</td>
+      <td>0.074327</td>
+      <td>0.036604</td>
+      <td>0.103977</td>
+      <td>0.108072</td>
+      <td>0.080824</td>
+      <td>0.116917</td>
+      <td>...</td>
+      <td>0.757143</td>
+      <td>0.243471</td>
+      <td>0.709449</td>
+      <td>0.050043</td>
+      <td>0.733333</td>
+      <td>0.594595</td>
+      <td>0.250000</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.156175</td>
+      <td>0.154404</td>
+      <td>0.109638</td>
+      <td>0.083704</td>
+      <td>0.122830</td>
+      <td>0.055472</td>
+      <td>0.170711</td>
+      <td>0.193129</td>
+      <td>0.133154</td>
+      <td>0.186688</td>
+      <td>...</td>
+      <td>0.725511</td>
+      <td>0.261538</td>
+      <td>0.719317</td>
+      <td>0.047715</td>
+      <td>0.750000</td>
+      <td>0.578947</td>
+      <td>0.375000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.219805</td>
+      <td>0.217672</td>
+      <td>0.158428</td>
+      <td>0.122119</td>
+      <td>0.176866</td>
+      <td>0.077736</td>
+      <td>0.237614</td>
+      <td>0.267845</td>
+      <td>0.187993</td>
+      <td>0.249599</td>
+      <td>...</td>
+      <td>0.725059</td>
+      <td>0.267994</td>
+      <td>0.709182</td>
+      <td>0.047249</td>
+      <td>0.807692</td>
+      <td>0.618421</td>
+      <td>0.454545</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.293347</td>
+      <td>0.288352</td>
+      <td>0.216580</td>
+      <td>0.161342</td>
+      <td>0.244792</td>
+      <td>0.094340</td>
+      <td>0.313616</td>
+      <td>0.330554</td>
+      <td>0.242652</td>
+      <td>0.316012</td>
+      <td>...</td>
+      <td>0.734403</td>
+      <td>0.267986</td>
+      <td>0.721120</td>
+      <td>0.043255</td>
+      <td>0.818182</td>
+      <td>0.638298</td>
+      <td>0.500000</td>
+      <td>0.0</td>
+      <td>0.785714</td>
+      <td>0.758621</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 34 columns</p>
+</div>
+
+

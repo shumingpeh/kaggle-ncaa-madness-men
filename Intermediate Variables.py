@@ -880,3 +880,13 @@ from aggregate_function import combine_features_table
 
 testing_final_output = combine_features_table.CombineFeaturesTable(test_features,win_rate_location_test,testing_df)
 
+
+
+
+testing_final_output.final_table_processed.head()
+
+
+
+
+testing_final_output.final_table_cum_processed.head()
+
