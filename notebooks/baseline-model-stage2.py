@@ -40,14 +40,14 @@ get_ipython().magic(u'qtconsole')
 # 1a. Get tourney results and add which round these wins occured
 
 
-# In[10]:
+# In[2]:
 
 
 # Stage 2
 raw = pd.read_csv('~/Code/kaggle-ncaa-madness-men/data/stage1/DataFiles/NCAATourneyCompactResults.csv')
 
 
-# In[11]:
+# In[3]:
 
 
 # What the Brackets should look like
@@ -61,7 +61,7 @@ raw = pd.read_csv('~/Code/kaggle-ncaa-madness-men/data/stage1/DataFiles/NCAATour
 # Total = 63 matches
 
 
-# In[12]:
+# In[4]:
 
 
 # If we were to select 1 year, the df is already sorted by DayNum
@@ -69,7 +69,7 @@ raw = pd.read_csv('~/Code/kaggle-ncaa-madness-men/data/stage1/DataFiles/NCAATour
 # Working backwards
 
 
-# In[13]:
+# In[5]:
 
 
 def add_round_to_df(df):
@@ -120,7 +120,7 @@ def add_round_to_df(df):
     return df1
 
 
-# In[14]:
+# In[6]:
 
 
 # Applying add_round_to_df to raw DF
@@ -133,41 +133,41 @@ for i in range(1985,2018):
 df.head()
 
 
-# In[15]:
+# In[7]:
 
 
 # Updated to stage 2 seedings
 seedings = pd.read_csv('~/Code/kaggle-ncaa-madness-men/data/stage2/Stage2UpdatedDataFiles/NCAATourneySeeds.csv')
 
 
-# In[16]:
+# In[8]:
 
 
 seedings.head()
 
 
-# In[20]:
+# In[9]:
 
 
 # Check that we indeed have 2018 seedings
 seedings.query("Season=='2018'").head()
 
 
-# In[21]:
+# In[10]:
 
 
 def parse_region(string1):
     return string1[0]
 
 
-# In[22]:
+# In[11]:
 
 
 def parse_seeding(string1):
     return int(string1[1:3])
 
 
-# In[23]:
+# In[12]:
 
 
 # Merge df and seedings
@@ -186,13 +186,13 @@ df=(
 )
 
 
-# In[24]:
+# In[13]:
 
 
 df.head()
 
 
-# In[25]:
+# In[14]:
 
 
 """
@@ -206,7 +206,7 @@ to estimate their success rates in round 2.
 """
 
 
-# In[26]:
+# In[15]:
 
 
 
@@ -217,7 +217,7 @@ len(df
 )
 
 
-# In[27]:
+# In[16]:
 
 
 len(df
@@ -227,19 +227,19 @@ len(df
 )/(2013-1985+1.0)
 
 
-# In[28]:
+# In[17]:
 
 
 # It Works!
 
 
-# In[29]:
+# In[18]:
 
 
 # Function to build Matrix 1 - Winning Rate Table based on seeds and rounds
 
 
-# In[34]:
+# In[19]:
 
 
 seeds = range(1,17) # 1 to 16
@@ -247,7 +247,7 @@ rounds = range(2,8) # 2 to 7
 wr = np.zeros((len(seeds),len(rounds)))
 
 
-# In[35]:
+# In[20]:
 
 
 # Update years to take train on data from 1985 to 2017
@@ -262,77 +262,87 @@ for s in seeds:
         
 
 
-# In[36]:
+# In[21]:
 
 
 wr
 
 
-# In[37]:
+# In[22]:
 
 
 def get_wr(seed,rd):
     return wr[seed-1,rd-2]
 
 
-# In[38]:
+# In[23]:
 
 
 # To get the winning rate of seed 7 in Round 3
 get_wr(7,3)
 
 
-# In[39]:
+# In[24]:
 
 
 def prob(wseed,lseed,rd):
+    """
+    Calculate the probability based on the winning rates of wseed vs lseed
+    P = wseed_win_rate / wseed_win_rate + lseed_win_rate
+    """
     num=get_wr(wseed,rd)
     den=(get_wr(wseed,rd)+get_wr(lseed,rd))
+    
+    #Special case - If 1 seed vs 16 seed, return 1.0
+    if wseed==1 & lseed==16:
+        return 1.0
+    
+    # If we have lack of data on winning rate, return 0
     if den==0 or num==0:
         return 0.5
     else:
         return num/den
 
 
-# In[40]:
+# In[25]:
 
 
 # What is the probability that 8th seed wins 9th seed in round 2
 prob(8,9,2)
 
 
-# In[41]:
+# In[26]:
 
 
 # What is the probability that 1st seed wins 9th seed in round 3
 prob(1,9,3)
 
 
-# In[42]:
+# In[27]:
 
 
 # Load default submissions
 
 
-# In[44]:
+# In[28]:
 
 
 sub=pd.read_csv('~/Code/kaggle-ncaa-madness-men/data/stage2/SampleSubmissionStage2.csv')
 
 
-# In[45]:
+# In[29]:
 
 
 sub.head()
 
 
-# In[46]:
+# In[30]:
 
 
 # Break up submission file into yr, id1, id2, pred
 
 
-# In[47]:
+# In[31]:
 
 
 def parse_yr(string1):
@@ -340,7 +350,7 @@ def parse_yr(string1):
     return int(a)
 
 
-# In[48]:
+# In[32]:
 
 
 def parse_id1(string1):
@@ -348,7 +358,7 @@ def parse_id1(string1):
     return int(b)
 
 
-# In[49]:
+# In[33]:
 
 
 def parse_id2(string1):
@@ -356,7 +366,7 @@ def parse_id2(string1):
     return int(c)
 
 
-# In[50]:
+# In[34]:
 
 
 sub=(sub
@@ -366,19 +376,19 @@ sub=(sub
 )
 
 
-# In[51]:
+# In[35]:
 
 
 sub.head()
 
 
-# In[52]:
+# In[36]:
 
 
 # For id1, id2 - get seeding
 
 
-# In[53]:
+# In[37]:
 
 
 sub=(sub
@@ -393,19 +403,19 @@ sub=(sub
 sub.head() # seeds can have repetition if teams are from different regions
 
 
-# In[54]:
+# In[38]:
 
 
 # Calc new prob, replace Pred
 
 
-# In[55]:
+# In[39]:
 
 
 import itertools
 
 
-# In[56]:
+# In[40]:
 
 
 # What are all the bracket combinations?
@@ -422,7 +432,7 @@ brackets = {
 }
 
 
-# In[57]:
+# In[41]:
 
 
 def get_round(wseed,lseed):
@@ -434,19 +444,19 @@ def get_round(wseed,lseed):
     return 0
 
 
-# In[58]:
+# In[42]:
 
 
 get_round(1,9)
 
 
-# In[59]:
+# In[43]:
 
 
 # Recompile a new submission file
 
 
-# In[60]:
+# In[47]:
 
 
 predictions=[]
@@ -460,13 +470,13 @@ for i,row in sub.iterrows():
         predictions.append(prob(wseed,lseed,rd))
 
 
-# In[61]:
+# In[48]:
 
 
 sub['Pred']=predictions
 
 
-# In[62]:
+# In[49]:
 
 
 final_submission = (
@@ -474,10 +484,10 @@ final_submission = (
 )
 
 
-# In[64]:
+# In[51]:
 
 
 import datetime
-timestamp=datetime.datetime.now().strftime('%Y-%m-%d')
+timestamp=datetime.datetime.now().strftime('%Y-%m-%d-%H%M')
 final_submission.to_csv('~/Code/kaggle-ncaa-madness-men/output/baseline-stage2-{}.csv'.format(timestamp),index=False)
 
