@@ -19,7 +19,7 @@
 # (A rather naive assumption but suitable for making a baseline)
 # 
 
-# In[64]:
+# In[1]:
 
 
 import numpy as np
@@ -43,7 +43,8 @@ get_ipython().magic(u'qtconsole')
 # In[3]:
 
 
-raw = pd.read_csv('data/DataFiles/NCAATourneyCompactResults.csv')
+# Stage 1
+raw = pd.read_csv('data/stage1/DataFiles/NCAATourneyCompactResults.csv')
 
 
 # In[4]:
