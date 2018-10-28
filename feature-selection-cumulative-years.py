@@ -29,8 +29,8 @@ from aggregate_function import build_features_table, combine_features_table, coa
 
 
 
-coach_file = 'data/DataFiles/Stage2UpdatedDataFiles/TeamCoaches.csv'
-regularseason_file = 'data/DataFiles/Stage2UpdatedDataFiles/RegularSeasonDetailedResults.csv'
+coach_file = 'data/DataFiles/TeamCoaches.csv'
+regularseason_file = 'data/DataFiles/RegularSeasonDetailedResults.csv'
 postseason_file = 'data/DataFiles/NCAATourneyCompactResults.csv'
 
 
@@ -51,10 +51,11 @@ features = combine_features_table.CombineFeaturesTable(initial_features,win_rate
 
 
 features_table = (
-    features.final_table_processed
-    .drop(['total_score','total_rebounds','total_blocks','total_assist_turnover_ratio','expectation_per_game',
-           'win_rate','total_rebound_possession_percent','win_rate_overall','total_off_rebounds_percent','total_def_rebounds_percent',
-           'total_opponent_score','total_rebound_possessiongain_percent','fg3p'
+    features.final_table_cum_processed
+    .drop(['total_score','total_opponent_score','total_rebounds','total_blocks',
+           'total_assist_turnover_ratio','expectation_per_game', 'win_rate','fg3p','win_rate_overall',
+           'total_off_rebounds_percent','total_def_rebounds_percent','total_rebound_possession_percent',
+           'total_rebound_possessiongain_percent'
           ],1)
     .fillna(0)
 )
@@ -63,8 +64,6 @@ features_table = (
 
 
 seeding_data = pd.read_csv("input/tour-results-seed.csv")
-seeding_data_2018 = pd.read_csv("output/match_up_2018.csv")
-seeding_data = pd.read_csv("input/tour-results-seed.csv").append(seeding_data_2018)
 
 
 
@@ -151,11 +150,10 @@ winning_team_perspective_df = (
                                                                 x.W_seed >= x.L_seed,
                                                                 x.win_rate_regular_x - x.win_rate_regular_y,
                                                                 x.win_rate_regular_y - x.win_rate_regular_x)))
-    .pipe(lambda x:x.assign(diff_seed = x.W_seed - x.L_seed
-    ))
-)
+    .pipe(lambda x:x.assign(diff_seed = x.W_seed - x.L_seed))
 
-winning_team_perspective_df.head()
+    
+)
 
 
 
@@ -242,8 +240,8 @@ losing_team_perspective_df = (
                                                                 x.W_seed >= x.L_seed,
                                                                 x.win_rate_regular_x - x.win_rate_regular_y,
                                                                 x.win_rate_regular_y - x.win_rate_regular_x)))
-    .pipe(lambda x:x.assign(diff_seed = x.W_seed - x.L_seed
-    ))
+    .pipe(lambda x:x.assign(diff_seed = x.W_seed - x.L_seed))
+    
 )
 
 
@@ -253,28 +251,28 @@ prediction_df = (
     winning_team_perspective_df.append(losing_team_perspective_df)
 )
 
-train_df = prediction_df.query("Season >= 2003 & Season <= 2017")
-test_df = prediction_df.query("Season == 2018")
+train_df = prediction_df.query("Season >= 2003 & Season <= 2016")
+test_df = prediction_df.query("Season == 2017")
 
-test_df.head()
+train_df.head()
 
 
 
 
 train_data_x = train_df[['diff_seed','diff_total_off_rebounds','diff_total_def_rebounds','diff_total_assists',
                          'diff_total_steals','diff_total_turnover','diff_total_personalfoul',
-                         'diff_total_assist_per_fgm','diff_avg_lose_score_by',
-                         'diff_avg_win_score_by','diff_num_season','diff_is_playoff','diff_is_champion',
-                         'diff_fgp','diff_total_block_opp_FGA_percent','diff_win_rate_away','diff_win_rate_home',
+                         'diff_total_assist_per_fgm','diff_avg_lose_score_by','diff_avg_win_score_by',
+                         'diff_num_season','diff_is_playoff','diff_is_champion','diff_fgp',
+                         'diff_total_block_opp_FGA_percent','diff_win_rate_away','diff_win_rate_home',
                          'diff_win_rate_neutral','diff_win_rate_post','diff_win_rate_regular']]
 train_data_y = train_df['outcome']
 
 test_data_x = test_df[['diff_seed','diff_total_off_rebounds','diff_total_def_rebounds','diff_total_assists',
-                       'diff_total_steals','diff_total_turnover','diff_total_personalfoul',
-                       'diff_total_assist_per_fgm','diff_avg_lose_score_by',
-                       'diff_avg_win_score_by','diff_num_season','diff_is_playoff','diff_is_champion',
-                       'diff_fgp','diff_total_block_opp_FGA_percent','diff_win_rate_away','diff_win_rate_home',
-                       'diff_win_rate_neutral','diff_win_rate_post','diff_win_rate_regular']]
+                         'diff_total_steals','diff_total_turnover','diff_total_personalfoul',
+                         'diff_total_assist_per_fgm','diff_avg_lose_score_by','diff_avg_win_score_by',
+                         'diff_num_season','diff_is_playoff','diff_is_champion','diff_fgp',
+                         'diff_total_block_opp_FGA_percent','diff_win_rate_away','diff_win_rate_home',
+                         'diff_win_rate_neutral','diff_win_rate_post','diff_win_rate_regular']]
 test_data_y = test_df['outcome']
 
 
@@ -300,58 +298,56 @@ for i in percentile_list:
     logreg.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal logreg: {}".format(logreg.score(train_data_x,train_data_y)))
+    print("normal logreg: {}".format(logreg.score(test_data_x,test_data_y)))
 
     logreg.fit(train_data_x_selected,train_data_y)
-    print("feature selection logreg: {}".format(logreg.score(train_data_x_selected,train_data_y)))
+    print("feature selection logreg: {}".format(logreg.score(test_data_x_selected,test_data_y)))
+    print(Counter(logreg.predict(test_data_x_selected)[:67]))
+
     
 # 2o percentile is the best FE for logistics regression
 
 
 
 
-# based on the output of the univariate, we can narrow to 10, 25, 80
-select_25 = SelectPercentile(percentile=80)
+# based on the output of the univariate, we can narrow to 15
+select_15 = SelectPercentile(percentile=15)
 
 
 
 
-select_25.fit(train_data_x, train_data_y)
+select_15.fit(train_data_x, train_data_y)
 
-train_data_x_selected_25 = select_25.transform(train_data_x)
-test_data_x_selected_25 = select_25.transform(test_data_x)
+train_data_x_selected_15 = select_15.transform(train_data_x)
+test_data_x_selected_15 = select_15.transform(test_data_x)
 
-mask = select_25.get_support()    
+mask = select_15.get_support()    
 #     print(mask)
-logreg_25 = LogisticRegression()
-logreg_25.fit(train_data_x_selected_25,train_data_y)
+logreg_15 = LogisticRegression()
+logreg_15.fit(train_data_x_selected_15,train_data_y)
 
-logreg_25.score(test_data_x_selected_25,test_data_y)
-
-logreg_25.predict(test_data_x_selected_25)[:67]
-
+logreg_15.score(test_data_x_selected_15,test_data_y)
+logreg_15.predict(test_data_x_selected_15)[:67]
 
 
 
-select_85.fit(train_data_x, train_data_y)
 
-train_data_x_selected_85 = select_85.transform(train_data_x)
-test_data_x_selected_85 = select_85.transform(test_data_x)
+rf = RandomForestClassifier(random_state=0)
+param_grid = {
+    'n_estimators': [5,10,50,100,150,500,1000],
+    'max_depth': [1,2,5,10,15,50,100]
+}
+grid_rf = GridSearchCV(rf, param_grid, scoring='accuracy', cv=5, verbose=0)
+grid_rf.fit(train_data_x, train_data_y)
 
-mask = select_85.get_support()    
-#     print(mask)
-logreg_85 = LogisticRegression()
-logreg_85.fit(train_data_x_selected_85,train_data_y)
-
-logreg_85.score(test_data_x_selected_85,test_data_y)
-
-logreg_85.predict(test_data_x_selected_85)
+rf_model = grid_rf.best_estimator_
+rf_model
 
 
 
 
 ## selectfrommodel RF
-select_rf = SelectFromModel(RandomForestClassifier(n_estimators =100, max_depth = 10, random_state=0),threshold=0.04)
+select_rf = SelectFromModel(RandomForestClassifier(n_estimators =150, max_depth = 15, random_state=0),threshold=0.05)
 
 
 
@@ -368,6 +364,11 @@ test_data_x_selected = select_rf.transform(test_data_x)
 
 
 LogisticRegression().fit(train_data_x_selected,train_data_y).score(test_data_x_selected,test_data_y)
+
+
+
+
+LogisticRegression().fit(train_data_x_selected,train_data_y).predict(test_data_x_selected)[:67]
 
 
 
@@ -395,86 +396,13 @@ LogisticRegression().fit(train_data_x_selected_lcv,train_data_y).score(test_data
 
 
 
-# select from model lassocv
-lassocv = LassoCV(random_state=0)
-param_grid_lasso = {
-    'n_alphas': [1,5,10,25,50,100,150,200,500,1000],
-    'max_iter': [100,500,1000,1500,2000,3000],
-    'eps': [0.00001,0.0001,0.001,0.01]
-}
-grid_lcv = GridSearchCV(lassocv, param_grid_lasso, cv=5, verbose=2)
-grid_lcv.fit(train_data_x_selected, train_data_y)
-
-lcv_model = grid_lcv.best_estimator_
-
-
-
-
-lcv_model
-
-
-
-
-select = SelectFromModel(LassoCV(max_iter=100,n_alphas=1,eps=0.001),threshold=0.04)
-
-select.fit(train_data_x,train_data_y)
-
-
-
-
-train_data_x_selected = select.transform(train_data_x)
-train_data_x_selected.shape
-
-
-
-
-test_data_x_selected = select.transform(test_data_x)
-
-
-
-
-LogisticRegression().fit(train_data_x_selected,train_data_y).score(test_data_x_selected,test_data_y)
-
-
-
-
-rf = RandomForestClassifier(random_state=0)
-param_grid = {
-    'n_estimators': [5,10,50,100,150,500,1000],
-    'max_depth': [1,2,5,10,15,50,100]
-}
-grid_rf = GridSearchCV(rf, param_grid, scoring='accuracy', cv=5, verbose=0)
-grid_rf.fit(train_data_x_selected, train_data_y)
-
-rf_model = grid_rf.best_estimator_
-rf_model
+LogisticRegression().fit(train_data_x_selected_lcv,train_data_y).predict(test_data_x_selected_lcv)[:67]
 
 
 # ## Feature selection for RF
 # - univariate
 # - SelectFromModel SVM
 # - RFE(CV)
-
-
-
-model = LogisticRegression()
-rfe = RFE(model, 9)
-fit = rfe.fit(train_data_x, train_data_y)
-print("Num Features: "+ str(fit.n_features_))
-print("Selected Features: " + str(fit.support_))
-print("Feature Ranking: " + str(fit.ranking_))
-
-
-
-
-train_data_x_selected = fit.transform(train_data_x)
-test_data_x_selected = fit.transform(test_data_x)
-
-
-
-
-model.fit(train_data_x_selected,train_data_y).score(test_data_x_selected,test_data_y)
-
 
 
 
@@ -489,40 +417,22 @@ for i in percentile_list:
     
     mask = select_rf.get_support()
 #     print(mask)
-    rf = RandomForestClassifier(n_estimators = 1000, max_depth=10,random_state=0)
+    rf = RandomForestClassifier(n_estimators = 150, max_depth=15,random_state=0)
     rf.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal rf: {}".format(rf.score(train_data_x,train_data_y)))
+    print("normal rf: {}".format(rf.score(test_data_x,test_data_y)))
     
     rf.fit(train_data_x_selected,train_data_y)
-    print("feature selection rf: {}".format(rf.score(train_data_x_selected,train_data_y)))    
+    print("feature selection rf: {}".format(rf.score(test_data_x_selected,test_data_y)))
+    print(Counter(rf.predict(test_data_x_selected)[:67]))
 
 
 
 
 # based on the output of the univariate, we can narrow to 60, 80
-select_70_rf = SelectPercentile(percentile=100)
-
-
-
-
-select_70_rf.fit(train_data_x, train_data_y)
-
-train_data_x_selected_70_rf = select_70_rf.transform(train_data_x)
-test_data_x_selected_70_rf = select_70_rf.transform(test_data_x)
-
-mask = select_70_rf.get_support()        
-# print(mask)
-rf_70 = RandomForestClassifier(n_estimators = 1000, max_depth=10,random_state=0,warm_start=True)
-rf_70.fit(train_data_x_selected_70_rf,train_data_y)
-
-rf_70.score(test_data_x_selected_70_rf,test_data_y)
-
-
-
-
-rf_70.predict(test_data_x_selected_70_rf)[:67]
+select_80_rf = SelectPercentile(percentile=80)
+select_90_rf = SelectPercentile(percentile=90)
 
 
 
@@ -534,7 +444,7 @@ test_data_x_selected_80_rf = select_80_rf.transform(test_data_x)
 
 mask = select_80_rf.get_support()        
 # print(mask)
-rf_80 = RandomForestClassifier(n_estimators = 1000, max_depth=10,random_state=0,warm_start=True)
+rf_80 = RandomForestClassifier(n_estimators = 150, max_depth=15,random_state=0,warm_start=False)
 rf_80.fit(train_data_x_selected_80_rf,train_data_y)
 
 rf_80.score(test_data_x_selected_80_rf,test_data_y)
@@ -547,12 +457,32 @@ rf_80.predict(test_data_x_selected_80_rf)[:67]
 
 
 
+select_90_rf.fit(train_data_x, train_data_y)
+
+train_data_x_selected_90_rf = select_90_rf.transform(train_data_x)
+test_data_x_selected_90_rf = select_90_rf.transform(test_data_x)
+
+mask = select_90_rf.get_support()        
+# print(mask)
+rf_90 = RandomForestClassifier(n_estimators = 150, max_depth=15,random_state=0,warm_start=False)
+rf_90.fit(train_data_x_selected_90_rf,train_data_y)
+
+rf_90.score(test_data_x_selected_90_rf,test_data_y)
+
+
+
+
+rf_90.predict(test_data_x_selected_90_rf)[:67]
+
+
+
+
 Counter(rf_80.predict(test_data_x_selected_80_rf)[:67])
 
 
 
 
-Counter(rf_70.predict(test_data_x_selected_70_rf)[:67])
+Counter(rf_90.predict(test_data_x_selected_90_rf)[:67])
 
 
 
@@ -569,15 +499,22 @@ print("Feature Ranking: " + str(fit.ranking_))
 train_data_x_selected_rfe = fit.transform(train_data_x)
 test_data_x_selected_rfe = fit.transform(test_data_x)
 
+model_rfe.fit(train_data_x_selected_rfe,train_data_y).score(test_data_x_selected_rfe,test_data_y)
 
 
 
-rf_model = RandomForestClassifier(n_estimators = 1000, max_depth=10,random_state=0,warm_start=False)
+
+rf_model = RandomForestClassifier(n_estimators = 150, max_depth=15,random_state=0,warm_start=False)
 
 
 
 
 rf_model.fit(train_data_x_selected_rfe,train_data_y).score(test_data_x_selected_rfe,test_data_y)
+
+
+
+
+rf_model.fit(train_data_x_selected_rfe,train_data_y).predict(test_data_x_selected_rfe)[:67]
 
 
 # ## SVM
@@ -601,15 +538,21 @@ for i in percentile_list:
     svm.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal svm: {}".format(svm.score(train_data_x,train_data_y)))
+    print("normal svm: {}".format(svm.score(test_data_x,test_data_y)))
 
     svm.fit(train_data_x_selected,train_data_y)
-    print("feature selection svm: {}".format(svm.score(train_data_x_selected,train_data_y)))
+    print("feature selection svm: {}".format(svm.score(test_data_x_selected,test_data_y)))
+    print(Counter(svm.predict(test_data_x_selected)[:67]))
 #     print(svm.predict(test_data_x_selected)[:67])
 #     print(svm.predict_proba(test_data_x_selected)[0:10])
 
     
 # 2o percentile is the best FE for logistics regression
+
+
+
+
+test_df.head(10)
 
 
 
@@ -634,7 +577,7 @@ svm_100.predict(test_data_x_selected_100_svm)[:67]
 
 
 
-rf_fi = RandomForestClassifier(n_estimators = 1000, max_depth=10,random_state=0)
+rf_fi = RandomForestClassifier(n_estimators = 100, max_depth=10,random_state=0)
 
 
 
@@ -657,24 +600,21 @@ rf_fi_values.features.unique()
 
 
 
-svm_train_data_x = train_df[['diff_win_rate_home', 'diff_is_playoff', 'diff_win_rate_post',
-       'diff_avg_win_score_by', 'diff_total_def_rebounds', 'diff_seed',
-       'diff_num_season', 'diff_win_rate_away', 'diff_win_rate_regular',
-       'diff_total_assists', 'diff_avg_lose_score_by', 'diff_fgp',
-       'diff_total_off_rebounds', 'diff_total_block_opp_FGA_percent',
-       'diff_total_steals', 'diff_total_turnover',
-       'diff_total_personalfoul']]
+svm_train_data_x = train_df[['diff_seed', 'win_rate_post', 'win_rate_home', 'avg_win_score_by',
+       'win_rate_regular', 'fgp', 'total_assist_per_fgm',
+       'total_block_opp_FGA_percent', 'is_playoff', 'total_steals',
+       'total_def_rebounds', 'total_assists', 'total_turnover',
+       'total_personalfoul', 'avg_lose_score_by', 'total_off_rebounds',
+       'win_rate_away']]
 svm_train_data_y = train_df[['outcome']]
 
-svm_test_data_x = test_df[['diff_win_rate_home', 'diff_is_playoff', 'diff_win_rate_post',
-       'diff_avg_win_score_by', 'diff_total_def_rebounds', 'diff_seed',
-       'diff_num_season', 'diff_win_rate_away', 'diff_win_rate_regular',
-       'diff_total_assists', 'diff_avg_lose_score_by', 'diff_fgp',
-       'diff_total_off_rebounds', 'diff_total_block_opp_FGA_percent',
-       'diff_total_steals', 'diff_total_turnover',
-       'diff_total_personalfoul']]
+svm_test_data_x = test_df[['diff_seed', 'win_rate_post', 'win_rate_home', 'avg_win_score_by',
+       'win_rate_regular', 'fgp', 'total_assist_per_fgm',
+       'total_block_opp_FGA_percent', 'is_playoff', 'total_steals',
+       'total_def_rebounds', 'total_assists', 'total_turnover',
+       'total_personalfoul', 'avg_lose_score_by', 'total_off_rebounds',
+       'win_rate_away']]
 svm_test_data_y = test_df[['outcome']]
-
 
 
 
@@ -704,12 +644,12 @@ log_rf_fs_df = pd.DataFrame(LogisticRegression().fit(train_data_x_selected,train
 
 
 
-rf_70_df = pd.DataFrame(rf_70.predict(test_data_x_selected_70_rf)[:67]).rename(columns={0:"rf_70_fs"})
-
-
-
-
 rf_80_df = pd.DataFrame(rf_80.predict(test_data_x_selected_80_rf)[:67]).rename(columns={0:"rf_80_fs"})
+
+
+
+
+rf_90_df = pd.DataFrame(rf_90.predict(test_data_x_selected_90_rf)[:67]).rename(columns={0:"rf_90_fs"})
 
 
 
@@ -719,12 +659,7 @@ rf_rfe_df = pd.DataFrame(rf_model.fit(train_data_x_selected_rfe,train_data_y).pr
 
 
 
-log_85_df = pd.DataFrame(logreg_85.predict(test_data_x_selected_85)[:67]).rename(columns={0:"log_85_fs"})
-
-
-
-
-log_90_df = pd.DataFrame(logreg_90.predict(test_data_x_selected_90)[:67]).rename(columns={0:"log_90_fs"})
+log_15_df = pd.DataFrame(logreg_25.predict(test_data_x_selected_25)[:67]).rename(columns={0:"log_25_fs"})
 
 
 
@@ -732,70 +667,51 @@ log_90_df = pd.DataFrame(logreg_90.predict(test_data_x_selected_90)[:67]).rename
 (
     svm_fs_df
     .merge(log_rf_fs_df,how='outer', left_index=True, right_index=True)
-    .merge(rf_70_df,how='outer',left_index=True, right_index=True)
-    .merge(rf_80_df,how='outer', left_index=True, right_index=True)
+    .merge(rf_80_df,how='outer',left_index=True, right_index=True)
+    .merge(rf_90_df,how='outer', left_index=True, right_index=True)
     .merge(rf_rfe_df,how='outer', left_index=True, right_index=True)
-    .merge(log_85_df,how='outer', left_index=True, right_index=True)
-    .merge(log_90_df,how='outer', left_index=True, right_index=True)
-).to_csv("output/final_results_static_year_improved.csv",index=False)
+    .merge(log_15_df,how='outer', left_index=True, right_index=True)
+).to_csv("output/final_results_cumulative_year.csv",index=False)
 
 
 
 
-log_reg_df = pd.DataFrame(logreg_25.predict_proba(test_data_x_selected_25)[:,1]).rename(columns={0:"LR"})
+seeding_data = pd.read_csv("data/DataFiles/Stage2UpdatedDataFiles/NCAATourneySeeds.csv")
 
 
 
 
-lr_rf_df = pd.DataFrame(LogisticRegression().fit(train_data_x_selected,train_data_y).predict_proba(test_data_x_selected)[:,1]).rename(columns={0:"LR_rf"})
+seeding_data.query("Season == 2018").to_csv("output/different_teams.csv")
 
 
 
 
-rf_df = pd.DataFrame(rf_70.predict_proba(test_data_x_selected_70_rf)[:,1]).rename(columns={0:"rf"})
+seeding_data_teams = pd.read_csv("output/different_teams.csv")
 
 
 
 
-svm_df = pd.DataFrame(svm_100.predict_proba(test_data_x_selected_100_svm)[:,1]).rename(columns={0:"svm"})
 
 
 
 
-results_output_df = (
-    log_reg_df
-    .merge(lr_rf_df,how='outer', left_index=True, right_index=True)
-    .merge(rf_df,how='outer',left_index=True, right_index=True)
-    .merge(svm_df,how='outer', left_index=True, right_index=True)
-)
 
-results_output_df.to_csv("2018_results.csv",index=False)
+unique_teams = seeding_data_teams.TeamID.unique()
 
 
 
 
-results_output_df.head()
-
-
-
-
-seeding_data_2018_submission = (
-    seeding_data_2018
-    .pipe(lambda x:x.assign(submission_column = x.Season.astype(str) + "_" + x.WTeamID.astype(str) + "_" + x.LTeamID.astype(str)))
-)
-
-
-
+seeding_data_2018 = pd.read_csv("output/match_up_2018.csv")
 
 seeding_data_2018.head()
 
 
 
 
-seeding_data_2018_submission.head()
+seeding_data.head()
 
 
 
 
-test_df.tail()
+train_df.head()
 

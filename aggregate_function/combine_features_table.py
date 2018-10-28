@@ -3,14 +3,22 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
+from aggregate_function import (build_features_table, 
+                               coach_stats, 
+                               win_rate_type_of_location)
 
 class CombineFeaturesTable():
     """Combine all required features for training data"""
-    def __init__(self, initial_features_table, win_rate_type_location_table, coach_stats_table):
+    # def __init__(self, initial_features_table, win_rate_type_location_table, coach_stats_table):
+    def __init__(self, coach_data_file, regularseason_data_file, postseason_data_file):
         super(CombineFeaturesTable, self).__init__()
-        self.win_rate_type_location_table = win_rate_type_location_table
-        self.coach_stats_table = coach_stats_table
-        self.initial_features_table = initial_features_table
+        self.coach_data_file = coach_data_file
+        self.regularseason_data_file = regularseason_data_file
+        self.postseason_data_file = postseason_data_file
+        self.initial_features_table = build_features_table.BuildFeaturesTable(self.regularseason_data_file)
+        self.win_rate_type_location_table = win_rate_type_of_location.WinRateTypeLocation(self.regularseason_data_file)
+        self.coach_stats_table = coach_stats.CoachStats(self.coach_data_file,self.regularseason_data_file,self.postseason_data_file)
+
 
         self.combine_feature_table()
         self.combine_feature_cumulative_table()

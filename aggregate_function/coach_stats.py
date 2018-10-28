@@ -39,6 +39,7 @@ class CoachStats():
             self.raw_data_coach
             .pipe(lambda x:x.assign(daysexp = x.LastDayNum-x.FirstDayNum))
             .merge(self.season_max_days, how='left',on=['Season'])
+            .fillna(0)
             .pipe(lambda x:x.assign(num_season = x.daysexp/x.season_max_days))
             .sort_values(['CoachName','Season'])
         )
@@ -54,6 +55,7 @@ class CoachStats():
             .reset_index()
             .rename(columns={"CoachName":"coach_counts"})
             .merge(self.num_days_coach_for_season,how='left',on=['Season','TeamID'])
+            .fillna(0)
             .pipe(lambda x:x.assign(final_coach = np.where(x.num_season >= 0.5, x.CoachName, "ignore")))
             [['Season','TeamID','final_coach']]
         )
@@ -189,8 +191,8 @@ class CoachStats():
 
     def get_overall_win_rate_for_each_coach(self):
         self.overall_win_rate_for_coaches = (
-            self.combine_post_games_won_lose
-            .merge(self.combine_regular_games_won_lose,how='left',on=['Season','CoachName','TeamID'])
+            self.combine_regular_games_won_lose
+            .merge(self.combine_post_games_won_lose,how='left',on=['Season','CoachName','TeamID'])
             .fillna(0)
             .pipe(lambda x:x.assign(overall_games_won = x.post_games_won + x.games_won))
             .pipe(lambda x:x.assign(overall_games_lost = x.post_games_lost + x.games_lost))

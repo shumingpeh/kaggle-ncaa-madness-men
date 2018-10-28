@@ -29,8 +29,8 @@ from aggregate_function import build_features_table, combine_features_table, coa
 
 
 
-coach_file = 'data/DataFiles/Stage2UpdatedDataFiles/TeamCoaches.csv'
-regularseason_file = 'data/DataFiles/Stage2UpdatedDataFiles/RegularSeasonDetailedResults.csv'
+coach_file = 'data/DataFiles/TeamCoaches.csv'
+regularseason_file = 'data/DataFiles/RegularSeasonDetailedResults.csv'
 postseason_file = 'data/DataFiles/NCAATourneyCompactResults.csv'
 
 
@@ -63,8 +63,6 @@ features_table = (
 
 
 seeding_data = pd.read_csv("input/tour-results-seed.csv")
-seeding_data_2018 = pd.read_csv("output/match_up_2018.csv")
-seeding_data = pd.read_csv("input/tour-results-seed.csv").append(seeding_data_2018)
 
 
 
@@ -253,8 +251,10 @@ prediction_df = (
     winning_team_perspective_df.append(losing_team_perspective_df)
 )
 
-train_df = prediction_df.query("Season >= 2003 & Season <= 2017")
-test_df = prediction_df.query("Season == 2018")
+train_df = prediction_df.query("Season >= 2003 & Season <= 2016")
+test_df = prediction_df.query("Season == 2017")
+
+train_df.head()
 
 test_df.head()
 
@@ -300,10 +300,12 @@ for i in percentile_list:
     logreg.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal logreg: {}".format(logreg.score(train_data_x,train_data_y)))
+    print("normal logreg: {}".format(logreg.score(test_data_x,test_data_y)))
 
     logreg.fit(train_data_x_selected,train_data_y)
-    print("feature selection logreg: {}".format(logreg.score(train_data_x_selected,train_data_y)))
+    print("feature selection logreg: {}".format(logreg.score(test_data_x_selected,test_data_y)))
+    print(Counter(logreg.predict(test_data_x_selected)[:67]))
+
     
 # 2o percentile is the best FE for logistics regression
 
@@ -311,24 +313,25 @@ for i in percentile_list:
 
 
 # based on the output of the univariate, we can narrow to 10, 25, 80
-select_25 = SelectPercentile(percentile=80)
+select_90 = SelectPercentile(percentile=90)
+select_85 = SelectPercentile(percentile=85)
 
 
 
 
-select_25.fit(train_data_x, train_data_y)
+select_90.fit(train_data_x, train_data_y)
 
-train_data_x_selected_25 = select_25.transform(train_data_x)
-test_data_x_selected_25 = select_25.transform(test_data_x)
+train_data_x_selected_90 = select_90.transform(train_data_x)
+test_data_x_selected_90 = select_90.transform(test_data_x)
 
-mask = select_25.get_support()    
+mask = select_90.get_support()    
 #     print(mask)
-logreg_25 = LogisticRegression()
-logreg_25.fit(train_data_x_selected_25,train_data_y)
+logreg_90 = LogisticRegression()
+logreg_90.fit(train_data_x_selected_90,train_data_y)
 
-logreg_25.score(test_data_x_selected_25,test_data_y)
+logreg_90.score(test_data_x_selected_90,test_data_y)
 
-logreg_25.predict(test_data_x_selected_25)[:67]
+logreg_90.predict(test_data_x_selected_90)[:67]
 
 
 
@@ -345,7 +348,7 @@ logreg_85.fit(train_data_x_selected_85,train_data_y)
 
 logreg_85.score(test_data_x_selected_85,test_data_y)
 
-logreg_85.predict(test_data_x_selected_85)
+logreg_85.predict(test_data_x_selected_85)[:67]
 
 
 
@@ -493,16 +496,19 @@ for i in percentile_list:
     rf.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal rf: {}".format(rf.score(train_data_x,train_data_y)))
+    print("normal rf: {}".format(rf.score(test_data_x,test_data_y)))
     
     rf.fit(train_data_x_selected,train_data_y)
-    print("feature selection rf: {}".format(rf.score(train_data_x_selected,train_data_y)))    
+    print("feature selection rf: {}".format(rf.score(test_data_x_selected,test_data_y)))
+    print(Counter(rf.predict(test_data_x_selected)[:67]))
+    
 
 
 
 
 # based on the output of the univariate, we can narrow to 60, 80
-select_70_rf = SelectPercentile(percentile=100)
+select_70_rf = SelectPercentile(percentile=70)
+select_80_rf = SelectPercentile(percentile=80)
 
 
 
@@ -601,10 +607,11 @@ for i in percentile_list:
     svm.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal svm: {}".format(svm.score(train_data_x,train_data_y)))
+    print("normal svm: {}".format(svm.score(test_data_x,test_data_y)))
 
     svm.fit(train_data_x_selected,train_data_y)
-    print("feature selection svm: {}".format(svm.score(train_data_x_selected,train_data_y)))
+    print("feature selection svm: {}".format(svm.score(test_data_x_selected,test_data_y)))
+    print(Counter(svm.predict(test_data_x_selected)[:67]))
 #     print(svm.predict(test_data_x_selected)[:67])
 #     print(svm.predict_proba(test_data_x_selected)[0:10])
 
@@ -694,7 +701,7 @@ svm_fs.score(svm_test_data_x,svm_test_data_y)
 
 
 
-svm_fs_df = pd.DataFrame(svm_100.predict(test_data_x_selected_100_svm)[:67]).rename(columns={0:"svm_100"})
+svm_fs_df = pd.DataFrame(svm_fs.predict(svm_test_data_x)[:67]).rename(columns={0:"svm_fs_df"})
 
 
 
@@ -738,64 +745,4 @@ log_90_df = pd.DataFrame(logreg_90.predict(test_data_x_selected_90)[:67]).rename
     .merge(log_85_df,how='outer', left_index=True, right_index=True)
     .merge(log_90_df,how='outer', left_index=True, right_index=True)
 ).to_csv("output/final_results_static_year_improved.csv",index=False)
-
-
-
-
-log_reg_df = pd.DataFrame(logreg_25.predict_proba(test_data_x_selected_25)[:,1]).rename(columns={0:"LR"})
-
-
-
-
-lr_rf_df = pd.DataFrame(LogisticRegression().fit(train_data_x_selected,train_data_y).predict_proba(test_data_x_selected)[:,1]).rename(columns={0:"LR_rf"})
-
-
-
-
-rf_df = pd.DataFrame(rf_70.predict_proba(test_data_x_selected_70_rf)[:,1]).rename(columns={0:"rf"})
-
-
-
-
-svm_df = pd.DataFrame(svm_100.predict_proba(test_data_x_selected_100_svm)[:,1]).rename(columns={0:"svm"})
-
-
-
-
-results_output_df = (
-    log_reg_df
-    .merge(lr_rf_df,how='outer', left_index=True, right_index=True)
-    .merge(rf_df,how='outer',left_index=True, right_index=True)
-    .merge(svm_df,how='outer', left_index=True, right_index=True)
-)
-
-results_output_df.to_csv("2018_results.csv",index=False)
-
-
-
-
-results_output_df.head()
-
-
-
-
-seeding_data_2018_submission = (
-    seeding_data_2018
-    .pipe(lambda x:x.assign(submission_column = x.Season.astype(str) + "_" + x.WTeamID.astype(str) + "_" + x.LTeamID.astype(str)))
-)
-
-
-
-
-seeding_data_2018.head()
-
-
-
-
-seeding_data_2018_submission.head()
-
-
-
-
-test_df.tail()
 

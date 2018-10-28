@@ -78,6 +78,7 @@ class BuildFeaturesTable():
         self.combine_both_winning_losing_games_stats = (
             self.winning_games
             .merge(self.losing_games, how='left',left_on=['Season','WTeamID'],right_on=['Season','LTeamID'])
+            .fillna(0)
             # on field goal percentage and winning counts
             .pipe(lambda x:x.assign(total_score = x.WScore + x.LScore))
             .pipe(lambda x:x.assign(total_opponent_score = x.winning_opponent_score + x.losing_opponent_score))

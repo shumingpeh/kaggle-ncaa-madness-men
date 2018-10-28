@@ -35,8 +35,8 @@ from aggregate_function import build_features_table, combine_features_table, coa
 
 
 ```python
-coach_file = 'data/DataFiles/Stage2UpdatedDataFiles/TeamCoaches.csv'
-regularseason_file = 'data/DataFiles/Stage2UpdatedDataFiles/RegularSeasonDetailedResults.csv'
+coach_file = 'data/DataFiles/TeamCoaches.csv'
+regularseason_file = 'data/DataFiles/RegularSeasonDetailedResults.csv'
 postseason_file = 'data/DataFiles/NCAATourneyCompactResults.csv'
 ```
 
@@ -69,8 +69,6 @@ features_table = (
 
 ```python
 seeding_data = pd.read_csv("input/tour-results-seed.csv")
-seeding_data_2018 = pd.read_csv("output/match_up_2018.csv")
-seeding_data = pd.read_csv("input/tour-results-seed.csv").append(seeding_data_2018)
 ```
 
 
@@ -431,8 +429,10 @@ prediction_df = (
     winning_team_perspective_df.append(losing_team_perspective_df)
 )
 
-train_df = prediction_df.query("Season >= 2003 & Season <= 2017")
-test_df = prediction_df.query("Season == 2018")
+train_df = prediction_df.query("Season >= 2003 & Season <= 2016")
+test_df = prediction_df.query("Season == 2017")
+
+train_df.head()
 
 test_df.head()
 ```
@@ -483,124 +483,124 @@ test_df.head()
   </thead>
   <tbody>
     <tr>
-      <th>2124</th>
-      <td>2018</td>
-      <td>1437</td>
+      <th>2057</th>
+      <td>2017</td>
+      <td>1243</td>
+      <td>11</td>
+      <td>1448</td>
+      <td>11</td>
+      <td>0</td>
       <td>1</td>
-      <td>1345</td>
-      <td>2</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>0.485839</td>
-      <td>0.832306</td>
-      <td>0.759729</td>
+      <td>0.474946</td>
+      <td>0.679408</td>
+      <td>0.636210</td>
       <td>...</td>
-      <td>-0.295359</td>
-      <td>-0.12500</td>
-      <td>-0.2</td>
-      <td>-0.007414</td>
-      <td>0.018162</td>
-      <td>-0.011111</td>
-      <td>0.088889</td>
-      <td>-0.428571</td>
-      <td>-0.076923</td>
-      <td>-0.045139</td>
-    </tr>
-    <tr>
-      <th>2125</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1403</td>
-      <td>3</td>
-      <td>-2</td>
-      <td>1</td>
-      <td>0.485839</td>
-      <td>0.832306</td>
-      <td>0.759729</td>
-      <td>...</td>
-      <td>-0.620253</td>
-      <td>-0.40625</td>
-      <td>-0.2</td>
-      <td>-0.040324</td>
-      <td>0.013130</td>
-      <td>-0.100000</td>
-      <td>-0.060870</td>
-      <td>-0.400000</td>
-      <td>-0.076923</td>
-      <td>-0.010130</td>
-    </tr>
-    <tr>
-      <th>2126</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1455</td>
-      <td>4</td>
-      <td>-3</td>
-      <td>1</td>
-      <td>0.485839</td>
-      <td>0.832306</td>
-      <td>0.759729</td>
-      <td>...</td>
-      <td>-0.118143</td>
-      <td>-0.03125</td>
-      <td>-0.2</td>
-      <td>-0.025907</td>
-      <td>0.001719</td>
-      <td>-0.150000</td>
-      <td>0.066667</td>
-      <td>-0.400000</td>
-      <td>-0.021368</td>
-      <td>-0.006173</td>
-    </tr>
-    <tr>
-      <th>2127</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1452</td>
-      <td>5</td>
-      <td>-4</td>
-      <td>1</td>
-      <td>0.485839</td>
-      <td>0.832306</td>
-      <td>0.759729</td>
-      <td>...</td>
-      <td>0.265823</td>
+      <td>0.426087</td>
       <td>0.28125</td>
-      <td>-0.2</td>
-      <td>-0.070479</td>
-      <td>0.033439</td>
-      <td>-0.275000</td>
-      <td>-0.063158</td>
-      <td>-0.285714</td>
-      <td>-0.035256</td>
-      <td>-0.049791</td>
+      <td>0.0</td>
+      <td>-0.013661</td>
+      <td>0.005368</td>
+      <td>-0.166667</td>
+      <td>0.068111</td>
+      <td>0.166667</td>
+      <td>0.521739</td>
+      <td>0.122933</td>
     </tr>
     <tr>
-      <th>2128</th>
-      <td>2018</td>
-      <td>1437</td>
+      <th>2058</th>
+      <td>2017</td>
+      <td>1291</td>
+      <td>16</td>
+      <td>1309</td>
+      <td>16</td>
+      <td>0</td>
       <td>1</td>
-      <td>1196</td>
-      <td>6</td>
-      <td>-5</td>
-      <td>1</td>
-      <td>0.485839</td>
-      <td>0.832306</td>
-      <td>0.759729</td>
+      <td>0.357298</td>
+      <td>0.681874</td>
+      <td>0.441624</td>
       <td>...</td>
-      <td>-0.502110</td>
-      <td>-0.40625</td>
-      <td>-0.2</td>
-      <td>-0.070126</td>
-      <td>0.016339</td>
-      <td>-0.400000</td>
-      <td>-0.050000</td>
-      <td>-0.500000</td>
-      <td>0.173077</td>
-      <td>-0.044436</td>
+      <td>0.000000</td>
+      <td>0.03125</td>
+      <td>0.0</td>
+      <td>-0.017967</td>
+      <td>0.017078</td>
+      <td>-0.033333</td>
+      <td>0.000000</td>
+      <td>-1.000000</td>
+      <td>0.333333</td>
+      <td>-0.076840</td>
+    </tr>
+    <tr>
+      <th>2059</th>
+      <td>2017</td>
+      <td>1413</td>
+      <td>16</td>
+      <td>1300</td>
+      <td>16</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.503268</td>
+      <td>0.728730</td>
+      <td>0.477157</td>
+      <td>...</td>
+      <td>0.213043</td>
+      <td>0.00000</td>
+      <td>0.0</td>
+      <td>-0.022078</td>
+      <td>0.006311</td>
+      <td>0.153846</td>
+      <td>-0.071429</td>
+      <td>-0.333333</td>
+      <td>0.600000</td>
+      <td>-0.141724</td>
+    </tr>
+    <tr>
+      <th>2060</th>
+      <td>2017</td>
+      <td>1425</td>
+      <td>11</td>
+      <td>1344</td>
+      <td>11</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.566449</td>
+      <td>0.763255</td>
+      <td>0.654822</td>
+      <td>...</td>
+      <td>-0.152174</td>
+      <td>-0.03125</td>
+      <td>0.0</td>
+      <td>0.007043</td>
+      <td>0.032465</td>
+      <td>0.095238</td>
+      <td>0.055024</td>
+      <td>0.466667</td>
+      <td>0.371429</td>
+      <td>0.017007</td>
+    </tr>
+    <tr>
+      <th>2061</th>
+      <td>2017</td>
+      <td>1112</td>
+      <td>2</td>
+      <td>1315</td>
+      <td>15</td>
+      <td>-13</td>
+      <td>1</td>
+      <td>0.553377</td>
+      <td>0.843403</td>
+      <td>0.593909</td>
+      <td>...</td>
+      <td>-0.121739</td>
+      <td>-0.28125</td>
+      <td>0.0</td>
+      <td>0.000339</td>
+      <td>-0.008089</td>
+      <td>-0.122222</td>
+      <td>-0.366071</td>
+      <td>0.050000</td>
+      <td>-0.655172</td>
+      <td>-0.126900</td>
     </tr>
   </tbody>
 </table>
@@ -650,121 +650,143 @@ for i in percentile_list:
     logreg.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal logreg: {}".format(logreg.score(train_data_x,train_data_y)))
+    print("normal logreg: {}".format(logreg.score(test_data_x,test_data_y)))
 
     logreg.fit(train_data_x_selected,train_data_y)
-    print("feature selection logreg: {}".format(logreg.score(train_data_x_selected,train_data_y)))
+    print("feature selection logreg: {}".format(logreg.score(test_data_x_selected,test_data_y)))
+    print(Counter(logreg.predict(test_data_x_selected)[:67]))
+
     
 # 2o percentile is the best FE for logistics regression
 ```
 
     
     Which percentile : 10
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8071862348178138
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.7761194029850746
+    Counter({1: 52, 0: 15})
     
     Which percentile : 15
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8076923076923077
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 20
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8107287449392713
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 25
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8299595141700404
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 30
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8269230769230769
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 35
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8279352226720648
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 40
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8279352226720648
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 45
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8259109311740891
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 50
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8289473684210527
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 55
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8279352226720648
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 60
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8289473684210527
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 65
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8289473684210527
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 70
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8319838056680162
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 75
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8380566801619433
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 80
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8380566801619433
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 85
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8380566801619433
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8656716417910447
+    Counter({1: 58, 0: 9})
     
     Which percentile : 90
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.8360323886639676
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8656716417910447
+    Counter({1: 58, 0: 9})
     
     Which percentile : 95
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.832995951417004
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8507462686567164
+    Counter({1: 57, 0: 10})
     
     Which percentile : 100
-    normal logreg: 0.832995951417004
-    feature selection logreg: 0.832995951417004
+    normal logreg: 0.8507462686567164
+    feature selection logreg: 0.8507462686567164
+    Counter({1: 57, 0: 10})
 
 
 
 ```python
 # based on the output of the univariate, we can narrow to 10, 25, 80
-select_25 = SelectPercentile(percentile=80)
+select_90 = SelectPercentile(percentile=90)
+select_85 = SelectPercentile(percentile=85)
 ```
 
 
 ```python
-select_25.fit(train_data_x, train_data_y)
+select_90.fit(train_data_x, train_data_y)
 
-train_data_x_selected_25 = select_25.transform(train_data_x)
-test_data_x_selected_25 = select_25.transform(test_data_x)
+train_data_x_selected_90 = select_90.transform(train_data_x)
+test_data_x_selected_90 = select_90.transform(test_data_x)
 
-mask = select_25.get_support()    
+mask = select_90.get_support()    
 #     print(mask)
-logreg_25 = LogisticRegression()
-logreg_25.fit(train_data_x_selected_25,train_data_y)
+logreg_90 = LogisticRegression()
+logreg_90.fit(train_data_x_selected_90,train_data_y)
 
-logreg_25.score(test_data_x_selected_25,test_data_y)
+logreg_90.score(test_data_x_selected_90,test_data_y)
 
-logreg_25.predict(test_data_x_selected_25)[:67]
+logreg_90.predict(test_data_x_selected_90)[:67]
 ```
 
 
 
 
-    array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1,
-           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+    array([0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+           1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
 
 
 
@@ -782,7 +804,7 @@ logreg_85.fit(train_data_x_selected_85,train_data_y)
 
 logreg_85.score(test_data_x_selected_85,test_data_y)
 
-logreg_85.predict(test_data_x_selected_85)
+logreg_85.predict(test_data_x_selected_85)[:67]
 ```
 
 
@@ -832,7 +854,7 @@ LogisticRegression().fit(train_data_x_selected,train_data_y).score(test_data_x_s
 
 
 
-    0.82835820895522383
+    0.83582089552238803
 
 
 
@@ -3455,95 +3477,117 @@ for i in percentile_list:
     rf.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal rf: {}".format(rf.score(train_data_x,train_data_y)))
+    print("normal rf: {}".format(rf.score(test_data_x,test_data_y)))
     
     rf.fit(train_data_x_selected,train_data_y)
-    print("feature selection rf: {}".format(rf.score(train_data_x_selected,train_data_y)))    
+    print("feature selection rf: {}".format(rf.score(test_data_x_selected,test_data_y)))
+    print(Counter(rf.predict(test_data_x_selected)[:67]))
+    
 
 ```
 
     
     Which percentile : 10
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9402834008097166
+    normal rf: 0.835820895522388
+    feature selection rf: 0.753731343283582
+    Counter({1: 51, 0: 16})
     
     Which percentile : 15
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9498987854251012
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8059701492537313
+    Counter({1: 54, 0: 13})
     
     Which percentile : 20
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9772267206477733
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8059701492537313
+    Counter({1: 54, 0: 13})
     
     Which percentile : 25
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9832995951417004
+    normal rf: 0.835820895522388
+    feature selection rf: 0.7910447761194029
+    Counter({1: 53, 0: 14})
     
     Which percentile : 30
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9848178137651822
+    normal rf: 0.835820895522388
+    feature selection rf: 0.7910447761194029
+    Counter({1: 53, 0: 14})
     
     Which percentile : 35
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9838056680161943
+    normal rf: 0.835820895522388
+    feature selection rf: 0.7910447761194029
+    Counter({1: 53, 0: 14})
     
     Which percentile : 40
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9812753036437247
+    normal rf: 0.835820895522388
+    feature selection rf: 0.7910447761194029
+    Counter({1: 53, 0: 14})
     
     Which percentile : 45
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9838056680161943
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8059701492537313
+    Counter({1: 54, 0: 13})
     
     Which percentile : 50
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9888663967611336
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8059701492537313
+    Counter({1: 54, 0: 13})
     
     Which percentile : 55
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9888663967611336
+    normal rf: 0.835820895522388
+    feature selection rf: 0.7910447761194029
+    Counter({1: 53, 0: 14})
     
     Which percentile : 60
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9868421052631579
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8134328358208955
+    Counter({1: 54, 0: 13})
     
     Which percentile : 65
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9873481781376519
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8059701492537313
+    Counter({1: 54, 0: 13})
     
     Which percentile : 70
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9878542510121457
+    normal rf: 0.835820895522388
+    feature selection rf: 0.835820895522388
+    Counter({1: 55, 0: 12})
     
     Which percentile : 75
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9883603238866396
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 80
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9913967611336032
+    normal rf: 0.835820895522388
+    feature selection rf: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 85
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9919028340080972
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8134328358208955
+    Counter({1: 54, 0: 13})
     
     Which percentile : 90
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9913967611336032
+    normal rf: 0.835820895522388
+    feature selection rf: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 95
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9924089068825911
+    normal rf: 0.835820895522388
+    feature selection rf: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 100
-    normal rf: 0.9979757085020243
-    feature selection rf: 0.9979757085020243
+    normal rf: 0.835820895522388
+    feature selection rf: 0.835820895522388
+    Counter({1: 56, 0: 11})
 
 
 
 ```python
 # based on the output of the univariate, we can narrow to 60, 80
-select_70_rf = SelectPercentile(percentile=100)
+select_70_rf = SelectPercentile(percentile=70)
+select_80_rf = SelectPercentile(percentile=80)
 ```
 
 
@@ -3564,7 +3608,7 @@ rf_70.score(test_data_x_selected_70_rf,test_data_y)
 
 
 
-    0.83033362598770855
+    0.83582089552238803
 
 
 
@@ -3701,10 +3745,11 @@ for i in percentile_list:
     svm.fit(train_data_x,train_data_y)
     
     print("\nWhich percentile : " + str(i))
-    print("normal svm: {}".format(svm.score(train_data_x,train_data_y)))
+    print("normal svm: {}".format(svm.score(test_data_x,test_data_y)))
 
     svm.fit(train_data_x_selected,train_data_y)
-    print("feature selection svm: {}".format(svm.score(train_data_x_selected,train_data_y)))
+    print("feature selection svm: {}".format(svm.score(test_data_x_selected,test_data_y)))
+    print(Counter(svm.predict(test_data_x_selected)[:67]))
 #     print(svm.predict(test_data_x_selected)[:67])
 #     print(svm.predict_proba(test_data_x_selected)[0:10])
 
@@ -3714,80 +3759,99 @@ for i in percentile_list:
 
     
     Which percentile : 10
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8102226720647774
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.7761194029850746
+    Counter({1: 52, 0: 15})
     
     Which percentile : 15
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8076923076923077
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 20
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8097165991902834
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 25
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8279352226720648
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 30
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8269230769230769
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.835820895522388
+    Counter({1: 56, 0: 11})
     
     Which percentile : 35
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8248987854251012
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8283582089552238
+    Counter({1: 56, 0: 11})
     
     Which percentile : 40
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.819838056680162
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8208955223880597
+    Counter({1: 55, 0: 12})
     
     Which percentile : 45
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8168016194331984
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8507462686567164
+    Counter({1: 57, 0: 10})
     
     Which percentile : 50
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8309716599190283
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8507462686567164
+    Counter({1: 57, 0: 10})
     
     Which percentile : 55
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8289473684210527
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8507462686567164
+    Counter({1: 57, 0: 10})
     
     Which percentile : 60
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8299595141700404
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8507462686567164
+    Counter({1: 57, 0: 10})
     
     Which percentile : 65
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8289473684210527
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8507462686567164
+    Counter({1: 57, 0: 10})
     
     Which percentile : 70
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8319838056680162
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8507462686567164
+    Counter({1: 57, 0: 10})
     
     Which percentile : 75
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8319838056680162
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8656716417910447
+    Counter({1: 58, 0: 9})
     
     Which percentile : 80
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8350202429149798
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8656716417910447
+    Counter({1: 58, 0: 9})
     
     Which percentile : 85
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8289473684210527
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8656716417910447
+    Counter({1: 58, 0: 9})
     
     Which percentile : 90
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8299595141700404
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8656716417910447
+    Counter({1: 58, 0: 9})
     
     Which percentile : 95
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8309716599190283
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.8805970149253731
+    Counter({1: 59, 0: 8})
     
     Which percentile : 100
-    normal svm: 0.8674089068825911
-    feature selection svm: 0.8674089068825911
+    normal svm: 0.9104477611940298
+    feature selection svm: 0.9104477611940298
+    Counter({1: 61, 0: 6})
 
 
 
@@ -3813,9 +3877,9 @@ svm_100.predict(test_data_x_selected_100_svm)[:67]
 
 
 
-    array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1,
-           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+    array([0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1])
 
 
 
@@ -3916,7 +3980,7 @@ svm_fs.score(svm_test_data_x,svm_test_data_y)
 
 
 ```python
-svm_fs_df = pd.DataFrame(svm_100.predict(test_data_x_selected_100_svm)[:67]).rename(columns={0:"svm_100"})
+svm_fs_df = pd.DataFrame(svm_fs.predict(svm_test_data_x)[:67]).rename(columns={0:"svm_fs_df"})
 ```
 
 
@@ -3962,460 +4026,3 @@ log_90_df = pd.DataFrame(logreg_90.predict(test_data_x_selected_90)[:67]).rename
     .merge(log_90_df,how='outer', left_index=True, right_index=True)
 ).to_csv("output/final_results_static_year_improved.csv",index=False)
 ```
-
-
-```python
-log_reg_df = pd.DataFrame(logreg_25.predict_proba(test_data_x_selected_25)[:,1]).rename(columns={0:"LR"})
-```
-
-
-```python
-lr_rf_df = pd.DataFrame(LogisticRegression().fit(train_data_x_selected,train_data_y).predict_proba(test_data_x_selected)[:,1]).rename(columns={0:"LR_rf"})
-```
-
-
-```python
-rf_df = pd.DataFrame(rf_70.predict_proba(test_data_x_selected_70_rf)[:,1]).rename(columns={0:"rf"})
-```
-
-
-```python
-svm_df = pd.DataFrame(svm_100.predict_proba(test_data_x_selected_100_svm)[:,1]).rename(columns={0:"svm"})
-```
-
-
-```python
-results_output_df = (
-    log_reg_df
-    .merge(lr_rf_df,how='outer', left_index=True, right_index=True)
-    .merge(rf_df,how='outer',left_index=True, right_index=True)
-    .merge(svm_df,how='outer', left_index=True, right_index=True)
-)
-
-results_output_df.to_csv("2018_results.csv",index=False)
-```
-
-
-```python
-results_output_df.head()
-```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>LR</th>
-      <th>LR_rf</th>
-      <th>rf</th>
-      <th>svm</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.507854</td>
-      <td>0.546515</td>
-      <td>0.559954</td>
-      <td>0.850039</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.930280</td>
-      <td>0.945529</td>
-      <td>0.933397</td>
-      <td>0.985287</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.512841</td>
-      <td>0.592597</td>
-      <td>0.533842</td>
-      <td>0.879097</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.702561</td>
-      <td>0.791228</td>
-      <td>0.733557</td>
-      <td>0.909262</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.957439</td>
-      <td>0.957348</td>
-      <td>0.841198</td>
-      <td>0.964839</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-seeding_data_2018_submission = (
-    seeding_data_2018
-    .pipe(lambda x:x.assign(submission_column = x.Season.astype(str) + "_" + x.WTeamID.astype(str) + "_" + x.LTeamID.astype(str)))
-)
-```
-
-
-```python
-seeding_data_2018.head()
-```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Season</th>
-      <th>WTeamID</th>
-      <th>W_seed</th>
-      <th>LTeamID</th>
-      <th>L_seed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1345</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1403</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1455</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1452</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1196</td>
-      <td>6</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-seeding_data_2018_submission.head()
-```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Season</th>
-      <th>WTeamID</th>
-      <th>W_seed</th>
-      <th>LTeamID</th>
-      <th>L_seed</th>
-      <th>submission_column</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1345</td>
-      <td>2</td>
-      <td>2018_1437_1345</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1403</td>
-      <td>3</td>
-      <td>2018_1437_1403</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1455</td>
-      <td>4</td>
-      <td>2018_1437_1455</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1452</td>
-      <td>5</td>
-      <td>2018_1437_1452</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2018</td>
-      <td>1437</td>
-      <td>1</td>
-      <td>1196</td>
-      <td>6</td>
-      <td>2018_1437_1196</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-test_df.tail()
-```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Season</th>
-      <th>WTeamID</th>
-      <th>W_seed</th>
-      <th>LTeamID</th>
-      <th>L_seed</th>
-      <th>diff_seed</th>
-      <th>outcome</th>
-      <th>total_off_rebounds_x</th>
-      <th>total_def_rebounds_x</th>
-      <th>total_assists_x</th>
-      <th>...</th>
-      <th>diff_num_season</th>
-      <th>diff_is_playoff</th>
-      <th>diff_is_champion</th>
-      <th>diff_fgp</th>
-      <th>diff_total_block_opp_FGA_percent</th>
-      <th>diff_win_rate_away</th>
-      <th>diff_win_rate_home</th>
-      <th>diff_win_rate_neutral</th>
-      <th>diff_win_rate_post</th>
-      <th>diff_win_rate_regular</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>6675</th>
-      <td>2018</td>
-      <td>1411</td>
-      <td>16</td>
-      <td>1355</td>
-      <td>12</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0.372549</td>
-      <td>0.824908</td>
-      <td>0.450085</td>
-      <td>...</td>
-      <td>-0.472574</td>
-      <td>-0.21875</td>
-      <td>0.0</td>
-      <td>0.017973</td>
-      <td>-0.026266</td>
-      <td>0.285714</td>
-      <td>0.413333</td>
-      <td>-0.285714</td>
-      <td>-0.25</td>
-      <td>0.050728</td>
-    </tr>
-    <tr>
-      <th>6676</th>
-      <td>2018</td>
-      <td>1411</td>
-      <td>16</td>
-      <td>1422</td>
-      <td>13</td>
-      <td>3</td>
-      <td>0</td>
-      <td>0.586057</td>
-      <td>0.681874</td>
-      <td>0.531303</td>
-      <td>...</td>
-      <td>-0.333142</td>
-      <td>-0.25000</td>
-      <td>0.0</td>
-      <td>-0.003312</td>
-      <td>0.013855</td>
-      <td>0.174603</td>
-      <td>0.364211</td>
-      <td>0.000000</td>
-      <td>-0.25</td>
-      <td>-0.126772</td>
-    </tr>
-    <tr>
-      <th>6677</th>
-      <td>2018</td>
-      <td>1411</td>
-      <td>16</td>
-      <td>1285</td>
-      <td>14</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0.596950</td>
-      <td>0.706535</td>
-      <td>0.472081</td>
-      <td>...</td>
-      <td>-0.413502</td>
-      <td>-0.25000</td>
-      <td>0.0</td>
-      <td>0.029288</td>
-      <td>0.000413</td>
-      <td>0.285714</td>
-      <td>0.346667</td>
-      <td>-0.200000</td>
-      <td>-0.25</td>
-      <td>0.028517</td>
-    </tr>
-    <tr>
-      <th>6678</th>
-      <td>2018</td>
-      <td>1411</td>
-      <td>16</td>
-      <td>1252</td>
-      <td>15</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0.431373</td>
-      <td>0.717633</td>
-      <td>0.532995</td>
-      <td>...</td>
-      <td>-0.324895</td>
-      <td>-0.25000</td>
-      <td>0.0</td>
-      <td>0.013532</td>
-      <td>-0.013078</td>
-      <td>0.119048</td>
-      <td>0.242500</td>
-      <td>0.000000</td>
-      <td>-0.25</td>
-      <td>-0.135897</td>
-    </tr>
-    <tr>
-      <th>6679</th>
-      <td>2018</td>
-      <td>1411</td>
-      <td>16</td>
-      <td>1300</td>
-      <td>16</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.542484</td>
-      <td>0.707768</td>
-      <td>0.578680</td>
-      <td>...</td>
-      <td>-0.265823</td>
-      <td>-0.18750</td>
-      <td>0.0</td>
-      <td>0.018323</td>
-      <td>-0.002119</td>
-      <td>-0.114286</td>
-      <td>0.089091</td>
-      <td>0.000000</td>
-      <td>-0.25</td>
-      <td>-0.041904</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 66 columns</p>
-</div>
-
-
